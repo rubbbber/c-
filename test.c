@@ -1,19 +1,91 @@
-//陷阱0
+//终极冒泡排序
 #include<stdio.h>
+void
+void Swap(char*buf1,char*buf2,int width)
+{
+    int i = 0;
+    for(i=0;i<width;i++)
+    {
+        char tmp = *buf1;
+        *(buf1++) = *buf2;
+        *(buf2++) = tmp;
+    }
+}
+void superSort(void*base,int sz,int width,int(*comp)(void*e1,void*e2))
+{
+    int i = 0;
+    for(i=0;i<sz-1;i++)
+    {
+        int j = 0;
+        for(j=0;j<sz-1-i;j++)
+        {
+            if(comp((char*)base + j*width,(char*)base + (j+1)*width)>0)
+            {
+                Swap((char*)base + j*width,(char*)base + (j+1)*width,width);
+            }
+        }
+    }
+}
+int comp_int(void*e1,void*e2)
+{
+    return *(int*)e1 - *(int*)e2;
+}
+int comp_flo(void*e1,void*e2)
+{
+    return *(float*)e1 - *(float*)e2;
+}
+void test2()
+{
+    float f[] = {9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0,0.0};
+    int sz = sizeof(f)/sizeof(f[0]);
+    int width = sizeof(f[0]);
+    superSort(f,sz,width,comp_flo);
+    int i = 0;
+    for(i=0;i<sz;i++)
+    {
+        printf("%lf ",f[i]);
+    }
+}
+void test1()
+{
+    int arr[] = {9,8,7,6,5,4,3,2,1,0};
+    int sz = sizeof(arr)/sizeof(arr[0]);
+    int width = sizeof(arr[0]);
+    superSort(arr,sz,width,comp_int);
+    int i = 0;
+    for(i=0;i<sz;i++)
+    {
+        printf("%d ",arr[i]);
+    }
+}
 int main()
 {
-    char arr1[] = "abcdef";
-    char arr2[] = "abcdef";
-    if(arr1 == arr2)//陷阱示范
-    {
-        printf("hehe");
-    }
-    else
-    {
-        printf("haha");
-    }
+    test1();
+    test2();
+    // test3();
+    // test4();
     return 0;
 }
+//小型计算器
+//几个指针
+// char*(*pf)(char*,char*);
+// char*(*pf2[4])(char*,char*);
+//陷阱0
+// #include<stdio.h>
+// int main()
+// {
+//     char arr1[] = "abcdef";
+//     char arr2[] = "abcdef";
+//     if(arr1 == arr2)//陷阱示范
+//     {
+//         printf("hehe");
+//     }
+//     else
+//     {
+//         printf("haha");
+//     }
+//     return 0;
+// }
 //打印字符塔
 // #include<stdio.h>
 // int main()
