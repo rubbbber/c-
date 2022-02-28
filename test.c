@@ -1,6 +1,42 @@
+//小例子
+// #include <stdio.h>
+// void print(int a)
+// {
+// printf("%d\n",a);
+// }
+// void out(int b)
+// {
+// printf("%d\n", b+1);
+// }
+// int main()
+// {
+// void (*a[])(int)={print, out};
+// a[0](3);
+// a[1](5);
+// }
 //终极冒泡排序
 #include<stdio.h>
-void
+struct Stu
+{
+    char name[20];
+    int age;
+};
+void print2(void*base,int sz)
+{
+    int i = 0;
+    for(i=0;i<sz;i++)
+    {
+        printf("%lf ",*((float*)base+i));
+    }
+}
+void print1(void*base,int sz)
+{
+    int i = 0;
+    for(i=0;i<sz;i++)
+    {
+        printf("%d ",*((int*)base+i));
+    }
+}
 void Swap(char*buf1,char*buf2,int width)
 {
     int i = 0;
@@ -34,35 +70,39 @@ int comp_flo(void*e1,void*e2)
 {
     return *(float*)e1 - *(float*)e2;
 }
-void test2()
+int comp_age(void*e1,void*e2)
+{
+    return ((struct Stu*)e1)->age - ((struct Stu*)e2)->age;
+}
+void test3(void(*print[])(void*,int)) 
+{
+    struct Stu s1[3] = {{"zhangshan",15},{"lisi",18},{"wangwu",20}};
+    int sz = sizeof(s1)/sizeof(s1[0]);
+    int width = sizeof(s1[0]);
+    superSort(s1,sz,sizeof(s1[0]),comp_age);
+}
+void test2(void(*print[])(void*,int))
 {
     float f[] = {9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0,0.0};
     int sz = sizeof(f)/sizeof(f[0]);
     int width = sizeof(f[0]);
     superSort(f,sz,width,comp_flo);
-    int i = 0;
-    for(i=0;i<sz;i++)
-    {
-        printf("%lf ",f[i]);
-    }
+    print[1](f,sz);
 }
-void test1()
+void test1(void(*print[])(void*,int))
 {
     int arr[] = {9,8,7,6,5,4,3,2,1,0};
     int sz = sizeof(arr)/sizeof(arr[0]);
     int width = sizeof(arr[0]);
     superSort(arr,sz,width,comp_int);
-    int i = 0;
-    for(i=0;i<sz;i++)
-    {
-        printf("%d ",arr[i]);
-    }
+    print[0](arr,sz);
 }
 int main()
 {
-    test1();
-    test2();
-    // test3();
+    void(*print[])(void*,int) = {print1,print2};
+    test1(print);
+    test2(print);
+    test3(print);
     // test4();
     return 0;
 }
