@@ -1,4 +1,4 @@
-//小例子
+//函数指针数组小例子小例子
 // #include <stdio.h>
 // void print(int a)
 // {
@@ -21,6 +21,33 @@ struct Stu
     char name[20];
     int age;
 };
+int my_strcmp(const char*e1,const char*e2)
+{
+    while(*e1)
+    {
+        if(*e1>*e2)
+        {
+            return -1;
+        }
+        if(*e1<*e2)
+        {
+            return 1;
+        }
+        e1++;
+        e2++;
+    }
+    return 0;
+}
+void print3(void*base,int sz)
+{
+    int i = 0;
+    for(i=0;i<sz;i++)
+    {
+        printf("%s ",((struct Stu*)base+i)->name);
+        //printf("%d ",((struct Stu*)base+i)->age);
+    }
+    printf("\n");
+}
 void print2(void*base,int sz)
 {
     int i = 0;
@@ -28,6 +55,7 @@ void print2(void*base,int sz)
     {
         printf("%lf ",*((float*)base+i));
     }
+    printf("\n");
 }
 void print1(void*base,int sz)
 {
@@ -36,6 +64,7 @@ void print1(void*base,int sz)
     {
         printf("%d ",*((int*)base+i));
     }
+    printf("\n");
 }
 void Swap(char*buf1,char*buf2,int width)
 {
@@ -53,33 +82,44 @@ void superSort(void*base,int sz,int width,int(*comp)(void*e1,void*e2))
     for(i=0;i<sz-1;i++)
     {
         int j = 0;
+        int flag = 0;
         for(j=0;j<sz-1-i;j++)
         {
             if(comp((char*)base + j*width,(char*)base + (j+1)*width)>0)
             {
                 Swap((char*)base + j*width,(char*)base + (j+1)*width,width);
+                flag = 1;
             }
+        }
+        if(flag == 1)
+        {
+            break;
         }
     }
 }
-int comp_int(void*e1,void*e2)
+int comp_int(void*const e1,void*const e2)
 {
     return *(int*)e1 - *(int*)e2;
 }
-int comp_flo(void*e1,void*e2)
+int comp_flo(void*const e1,void*const e2)
 {
     return *(float*)e1 - *(float*)e2;
 }
-int comp_age(void*e1,void*e2)
+int comp_age(void*const e1,void*const e2)
 {
     return ((struct Stu*)e1)->age - ((struct Stu*)e2)->age;
+}
+int comp_name(void*const e1,void*const e2)
+{
+    return my_strcmp(((struct Stu*)e1)->name,((struct Stu*)e2)->name);
 }
 void test3(void(*print[])(void*,int)) 
 {
     struct Stu s1[3] = {{"zhangshan",15},{"lisi",18},{"wangwu",20}};
     int sz = sizeof(s1)/sizeof(s1[0]);
     int width = sizeof(s1[0]);
-    superSort(s1,sz,sizeof(s1[0]),comp_age);
+    superSort(s1,sz,sizeof(s1[0]),comp_name);
+    print[2](s1,sz);
 }
 void test2(void(*print[])(void*,int))
 {
@@ -99,14 +139,54 @@ void test1(void(*print[])(void*,int))
 }
 int main()
 {
-    void(*print[])(void*,int) = {print1,print2};
+    void(*print[])(void*,int) = {print1,print2,print3};
     test1(print);
     test2(print);
     test3(print);
-    // test4();
     return 0;
 }
 //小型计算器
+// #include<stdio.h>
+// int Add(int x,int y)
+// {
+//     return x+y;
+// }
+// int Sub(int x,int y)
+// {
+//     return x-y;
+// }
+// int Mul(int x,int y)
+// {
+//     return x*y;
+// }
+// int Div(int x,int y)
+// {
+//     return x/y;
+// }
+// int Anwei(int x,int y)
+// {
+//     return x^y;
+// }
+// int main()
+// {
+//     printf("*********************\n");
+//     printf("***1.Add     2.Sub***\n");
+//     printf("***3.Mul     4,Div***\n");
+//     printf("***5.Anwei  0.exit***\n");
+//     int input = 0;
+//     int (*parr[])(int,int) = {0,Add,Sub,Mul,Div,Anwei};
+//     do
+//     {
+//         int i,j;
+//         printf("请输入计算方式:>\n");
+//         scanf("%d",&input);
+//         printf("请输入操作数:>\n");
+//         scanf("%d%d",&i,&j);
+//         int p = parr[input](i,j);
+//         printf("%d\n",p);
+//     }while(input);
+//     return 0;
+// }
 //几个指针
 // char*(*pf)(char*,char*);
 // char*(*pf2[4])(char*,char*);
