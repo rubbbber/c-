@@ -1,150 +1,235 @@
-//函数指针数组小例子小例子
-// #include <stdio.h>
-// void print(int a)
-// {
-// printf("%d\n",a);
-// }
-// void out(int b)
-// {
-// printf("%d\n", b+1);
-// }
-// int main()
-// {
-// void (*a[])(int)={print, out};
-// a[0](3);
-// a[1](5);
-// }
-//终极冒泡排序
+//简化阶梯型矩阵(持续更新中)
 #include<stdio.h>
-struct Stu
-{
-    char name[20];
-    int age;
-};
-int my_strcmp(const char*e1,const char*e2)
-{
-    while(*e1)
-    {
-        if(*e1>*e2)
-        {
-            return -1;
-        }
-        if(*e1<*e2)
-        {
-            return 1;
-        }
-        e1++;
-        e2++;
-    }
-    return 0;
-}
-void print3(void*base,int sz)
+void print(int*p,int row,int col)
 {
     int i = 0;
-    for(i=0;i<sz;i++)
-    {
-        printf("%s ",((struct Stu*)base+i)->name);
-        //printf("%d ",((struct Stu*)base+i)->age);
-    }
-    printf("\n");
-}
-void print2(void*base,int sz)
-{
-    int i = 0;
-    for(i=0;i<sz;i++)
-    {
-        printf("%lf ",*((float*)base+i));
-    }
-    printf("\n");
-}
-void print1(void*base,int sz)
-{
-    int i = 0;
-    for(i=0;i<sz;i++)
-    {
-        printf("%d ",*((int*)base+i));
-    }
-    printf("\n");
-}
-void Swap(char*buf1,char*buf2,int width)
-{
-    int i = 0;
-    for(i=0;i<width;i++)
-    {
-        char tmp = *buf1;
-        *(buf1++) = *buf2;
-        *(buf2++) = tmp;
-    }
-}
-void superSort(void*base,int sz,int width,int(*comp)(void*e1,void*e2))
-{
-    int i = 0;
-    for(i=0;i<sz-1;i++)
+    for(i=0;i<row;i++)
     {
         int j = 0;
-        int flag = 0;
-        for(j=0;j<sz-1-i;j++)
+        for(j=0;j<col;j++)
         {
-            if(comp((char*)base + j*width,(char*)base + (j+1)*width)>0)
-            {
-                Swap((char*)base + j*width,(char*)base + (j+1)*width,width);
-                flag = 1;
-            }
+            printf("%d ",*p++);
         }
-        if(flag == 1)
-        {
-            break;
-        }
+        printf("\n");
     }
-}
-int comp_int(void*const e1,void*const e2)
-{
-    return *(int*)e1 - *(int*)e2;
-}
-int comp_flo(void*const e1,void*const e2)
-{
-    return *(float*)e1 - *(float*)e2;
-}
-int comp_age(void*const e1,void*const e2)
-{
-    return ((struct Stu*)e1)->age - ((struct Stu*)e2)->age;
-}
-int comp_name(void*const e1,void*const e2)
-{
-    return my_strcmp(((struct Stu*)e1)->name,((struct Stu*)e2)->name);
-}
-void test3(void(*print[])(void*,int)) 
-{
-    struct Stu s1[3] = {{"zhangshan",15},{"lisi",18},{"wangwu",20}};
-    int sz = sizeof(s1)/sizeof(s1[0]);
-    int width = sizeof(s1[0]);
-    superSort(s1,sz,sizeof(s1[0]),comp_name);
-    print[2](s1,sz);
-}
-void test2(void(*print[])(void*,int))
-{
-    float f[] = {9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0,0.0};
-    int sz = sizeof(f)/sizeof(f[0]);
-    int width = sizeof(f[0]);
-    superSort(f,sz,width,comp_flo);
-    print[1](f,sz);
-}
-void test1(void(*print[])(void*,int))
-{
-    int arr[] = {9,8,7,6,5,4,3,2,1,0};
-    int sz = sizeof(arr)/sizeof(arr[0]);
-    int width = sizeof(arr[0]);
-    superSort(arr,sz,width,comp_int);
-    print[0](arr,sz);
 }
 int main()
 {
-    void(*print[])(void*,int) = {print1,print2,print3};
-    test1(print);
-    test2(print);
-    test3(print);
+    int arr[][20] = {{1,2,3,4},{2,3,4,5},{3,4,5,6}};
+    int col = sizeof(arr[0])/sizeof(arr[0][0]);
+    int row = sizeof(arr)/sizeof(arr[0]);
+    print(*arr,row,col);
     return 0;
 }
+//求合进阶版
+// #include<stdio.h>
+// int main()
+// {
+//     int p =1;
+//     do
+//     {
+//         long n = 0;
+//         long sum = 0;
+//         scanf("%d",&p);
+//         int i = 0;
+//         for(i=0;i<p;i++)
+//         {
+//             scanf("%ld",&n);
+//             sum+=n;
+//         }
+//         if(p!=0)
+//         {
+//             printf("%ld\n",sum);
+//         }
+//     } while (p);
+//     return 0;
+// }
+//求和初阶版
+// #include<stdio.h>
+// int main()
+// {
+//     long i,j;
+//     while(scanf("%ld %ld",&i,&j) != EOF)
+//     {
+//         printf("%ld",i+j);
+//     }
+//     return 0;
+// }
+//求和高阶版
+// #include<stdio.h>
+// int main()
+// {
+//     long p = 1;
+//     long sum = 0;
+//     int flag = 0;
+//     char c;
+//     while(1)
+//     {
+//         flag = 1;
+//         sum = 0;
+//         do
+//         {
+//             scanf("%ld",&p);
+//             if(flag == 1 && p == 0)
+//             {
+//                 goto End;
+//             }
+//             flag = 0;
+//             sum += p;
+//             c = getchar();
+//         } while (c != '\n');
+//         printf("%ld\n",sum);
+//     }
+//     End:
+//     return 0;
+// }
+//函数指针数组小例子
+// #include <stdio.h>
+// void print(int a)
+// {
+//     printf("%d\n",a);
+// }
+// void out(int b)
+// {
+//     printf("%d\n", b+1);
+// }
+// int main()
+// {
+//     void (*a[])(int)={print, out};
+//     a[0](3);
+//     a[1](5);
+// }
+//终极冒泡排序
+// #include<stdio.h>
+// struct Stu
+// {
+//     char name[20];
+//     int age;
+// };
+// int my_strcmp(const char*e1,const char*e2)
+// {
+//     while(*e1)
+//     {
+//         if(*e1>*e2)
+//         {
+//             return -1;
+//         }
+//         if(*e1<*e2)
+//         {
+//             return 1;
+//         }
+//         e1++;
+//         e2++;
+//     }
+//     return 0;
+// }
+// void print3(void*base,int sz)
+// {
+//     int i = 0;
+//     for(i=0;i<sz;i++)
+//     {
+//         printf("%s ",((struct Stu*)base+i)->name);
+//         //printf("%d ",((struct Stu*)base+i)->age);
+//     }
+//     printf("\n");
+// }
+// void print2(void*base,int sz)
+// {
+//     int i = 0;
+//     for(i=0;i<sz;i++)
+//     {
+//         printf("%lf ",*((float*)base+i));
+//     }
+//     printf("\n");
+// }
+// void print1(void*base,int sz)
+// {
+//     int i = 0;
+//     for(i=0;i<sz;i++)
+//     {
+//         printf("%d ",*((int*)base+i));
+//     }
+//     printf("\n");
+// }
+// void Swap(char*buf1,char*buf2,int width)
+// {
+//     int i = 0;
+//     for(i=0;i<width;i++)
+//     {
+//         char tmp = *buf1;
+//         *(buf1++) = *buf2;
+//         *(buf2++) = tmp;
+//     }
+// }
+// void superSort(void*base,int sz,int width,int(*comp)(void*e1,void*e2))
+// {
+//     int i = 0;
+//     for(i=0;i<sz-1;i++)
+//     {
+//         int j = 0;
+//         int flag = 0;
+//         for(j=0;j<sz-1-i;j++)
+//         {
+//             if(comp((char*)base + j*width,(char*)base + (j+1)*width)>0)
+//             {
+//                 Swap((char*)base + j*width,(char*)base + (j+1)*width,width);
+//                 flag = 1;
+//             }
+//         }
+//         if(flag == 1)
+//         {
+//             break;
+//         }
+//     }
+// }
+// int comp_int(void*const e1,void*const e2)
+// {
+//     return *(int*)e1 - *(int*)e2;
+// }
+// int comp_flo(void*const e1,void*const e2)
+// {
+//     return *(float*)e1 - *(float*)e2;
+// }
+// int comp_age(void*const e1,void*const e2)
+// {
+//     return ((struct Stu*)e1)->age - ((struct Stu*)e2)->age;
+// }
+// int comp_name(void*const e1,void*const e2)
+// {
+//     return my_strcmp(((struct Stu*)e1)->name,((struct Stu*)e2)->name);
+// }
+// void test3(void(*print[])(void*,int)) 
+// {
+//     struct Stu s1[3] = {{"zhangshan",15},{"lisi",18},{"wangwu",20}};
+//     int sz = sizeof(s1)/sizeof(s1[0]);
+//     int width = sizeof(s1[0]);
+//     superSort(s1,sz,sizeof(s1[0]),comp_name);
+//     print[2](s1,sz);
+// }
+// void test2(void(*print[])(void*,int))
+// {
+//     float f[] = {9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0,0.0};
+//     int sz = sizeof(f)/sizeof(f[0]);
+//     int width = sizeof(f[0]);
+//     superSort(f,sz,width,comp_flo);
+//     print[1](f,sz);
+// }
+// void test1(void(*print[])(void*,int))
+// {
+//     int arr[] = {9,8,7,6,5,4,3,2,1,0};
+//     int sz = sizeof(arr)/sizeof(arr[0]);
+//     int width = sizeof(arr[0]);
+//     superSort(arr,sz,width,comp_int);
+//     print[0](arr,sz);
+// }
+// int main()
+// {
+//     void(*print[])(void*,int) = {print1,print2,print3};
+//     test1(print);
+//     test2(print);
+//     test3(print);
+//     return 0;
+// }
 //小型计算器
 // #include<stdio.h>
 // int Add(int x,int y)
