@@ -1,6 +1,54 @@
+//打印空心等边三角形
+// #include<stdio.h>
+// int main()
+// {
+//     char c;
+//     int n,m,p;
+//     scanf("%c",&c);
+//     scanf("%d",&n);
+//     if(n>0&&n<=100)
+//     {
+//         int i = 0;
+//         int k = 1;
+//         for(i=0;i<n-1;i++)
+//         {
+//             int j = 0;
+//             for(j=0;j<n-1-i;j++)
+//             {
+//                 putchar(32);
+//             }
+//             printf("%c",c);
+//             if(k!=1)
+//             {
+//                 m = 2*k-3;
+//                 int a =0;
+//                 for(a=0;a<2*k-3;a++)
+//                 {
+//                     putchar(32);
+//                 }
+//                 printf("%c",c);
+//             }
+//             printf("\n");
+//             k++;
+//         }
+//         for(p=0;p<n;p++)
+//         {
+//             printf("%c ",c);
+//         }
+//         printf("\n");
+//     }
+//     else
+//     {
+//         printf("输出错误\n");
+//     }
+//     return 0;
+// }
 //简化阶梯型矩阵(持续更新中)
+#define ROW 20
+#define COL 20
 #include<stdio.h>
-void print(int*p,int row,int col)
+#include<string.h>
+void print(int(*p)[COL],int row,int col)
 {
     int i = 0;
     for(i=0;i<row;i++)
@@ -8,17 +56,49 @@ void print(int*p,int row,int col)
         int j = 0;
         for(j=0;j<col;j++)
         {
-            printf("%d ",*p++);
+            printf("%d ",p[i][j]);
         }
         printf("\n");
     }
 }
 int main()
 {
-    int arr[][20] = {{1,2,3,4},{2,3,4,5},{3,4,5,6}};
-    int col = sizeof(arr[0])/sizeof(arr[0][0]);
-    int row = sizeof(arr)/sizeof(arr[0]);
-    print(*arr,row,col);
+    int arr[ROW][COL] = {0};//不将接受数组分装成一个函数，
+    int col = 0;              //因为其无法返回接受个数使代码复杂,所以将接受与输出放入同一个函数里
+    int row = 0;
+    int e = 0;
+    int n = 0;
+    char c,b;
+    char s[5] = {0};
+    while(1)
+    {
+        e = col+1;
+        col = 0;
+        scanf("%d",&arr[row][col]);
+        b = getchar();
+        while(b == '\n')
+        {
+            s[n] = b;
+            
+        }
+        if(b == '*')
+        {
+            goto next;
+        } 
+        if(s[0] == '*'&&s[1] == '\n')
+        {
+            goto next;
+        }
+        do
+        {
+            scanf("%d",&arr[row][col+1]);
+            col++;
+            c = getchar();
+        }while(c !='\n');
+        row++;
+    }
+    next:      
+    print(arr,row,e);
     return 0;
 }
 //求合进阶版
@@ -42,6 +122,27 @@ int main()
 //             printf("%ld\n",sum);
 //         }
 //     } while (p);
+//     return 0;
+// }
+// #include<stdio.h>
+// int main()
+// {
+//     long j,k;
+//     int a;
+//     long sum =0;
+//     scanf("%d",&a);
+//     for(int b = 1;b<=a;b++)
+//     {
+//         scanf("%ld",&j);
+//         for(int c=1;c<=j;c++)
+//         {
+//             scanf("%ld",&k);
+//             sum +=k;
+//         }
+//         printf("%ld\n",sum);
+//         sum = 0;
+//     }
+
 //     return 0;
 // }
 //求和初阶版
@@ -542,231 +643,221 @@ int main()
 //     printf("%d\n",count);
 //     return 0;
 // }
-//初级完美扫雷游戏
-// #include<stdio.h>
-// #include<time.h>
-// #include<stdlib.h>
-// #define ROW 20  
-// #define COL 20
-// #define ROWS ROW + 2
-// #define COLS COL + 2
-// #define minenum 40
-// void initboard(char board[ROWS][COLS],int rows,int cols,char set)
-// {
-//     int i = 0;
-//     int j = 0;
-//     for(i=0;i<rows;i++)
-//     {
-//         for(j=0;j<cols;j++)
-//         {
-//             board[i][j] = set;
-//         }
-//     }
-// }
-// void displayboard(char board[ROWS][COLS],int row,int col)
-// {
-//     int i = 0;
-//     int j = 0;
-//     printf("雷数为%d\n",minenum);
-//     for(i=0;i<=col;i++)
-//     {
-//         printf("%-2d ",i);
-//     }
-//     printf("\n");
-//     for(i=1;i<=row;i++)
-//     {
-//         printf("%-2d ",i);
-//         for(j=1;j<=col;j++)
-//         {
-//             printf("%-2c ",board[i][j]);
-//         }
-//         printf("\n");
-//     }
-// }
-// void getmine(char board[ROWS][COLS],int row,int col)
-// {
-//     int count = minenum;
-//     while(count)
-//     {
-//         int x = rand()%row+1;
-//         int y = rand()%row+1;
-//         if(board[x][y]=='0')
-//         {
-//             board[x][y]='1';
-//             count--;
-//         } 
-//     }
-// }
-// int check(char mine[ROWS][COLS],int x,int y)
-// {
-//     return mine[x-1][y]+
-//            mine[x+1][y]+
-//            mine[x][y+1]+
-//            mine[x][y-1]+
-//            mine[x+1][y+1]+
-//            mine[x-1][y+1]+
-//            mine[x+1][y-1]+
-//            mine[x-1][y-1]-8*'0';
-// }
-// int sum(char mine[ROWS][COLS],int row,int col)
-// {
-//     int i = 0;
-//     int j = 0;
-//     int l = 0;
-//     for(i=1;i<=row;i++)
-//     {
-//         for(j=1;j<=col;j++)
-//         {
-//             if(mine[i][j]=='*')
-//             {
-//                 l++;
-//             }
-//         }
-//     }
-//     return l;
-// }
-// void dround(char mine[ROWS][COLS],char show[ROWS][COLS],int o,int p)
-// {
-//     int e = 0;
-//     int r = 0;
-//     int a = 0;
-//     int b = 0;
-//     int t = 0;
-//     for(e=-1;e<=1;e++)
-//     {
-//         for(r=-1;r<=1;r++)
-//         {
-//             a = o + e;
-//             b = p + r;
-//             t = check(mine,a,b);
-//             show[a][b] = t + '0';
-//         }
-//     }
-// }
-// void circle(char mine[ROWS][COLS],char show[ROWS][COLS],int x,int y,int row,int col)
-// {
-//     int i = 0;
-//     int j = 0;
-//     int o = 0;
-//     int p = 0;
-//     int a = 0;
-//     int b = 0;
-//     int count = check(mine,x,y);
-//     show[x][y] = count + '0';
-//     if(count == 0)
-//     {
-//         for(i=-row/4;i<=row/4;i++)
-//         {
-//             for(j=-col/4;j<=col/4;j++)
-//             {
-//                 o = x + i;
-//                 p = y + j;
-//                 count = check(mine,o,p);
-//                 if(count == 0 && mine[o][p] == '0')
-//                 {
-//                     show[o][p] = count + '0';
-//                     dround(mine,show,o,p);
-//                     // int e = check(mine,o+1,p+1);
-//                     // show[o+1][p+1] = e + '0';
-//                     // e = check(mine,o-1,p-1);
-//                     // show[o-1][p-1] = e + '0';
-//                     // for(i=-1;i<=1;i++)
-//                     // {
-//                     //     for(j=-1;j<=1;j++)
-//                     //     {
-//                     //         a = o + i;
-//                     //         b = p + j;
-//                     //         count = check(mine,a,b);
-//                     //         show[a][b] = count + '0';
-//                     //     }
-//                     // }
-//                 }
-//             }
-//         }
-//     }
-// }
-// void findmine(char mine[ROWS][COLS],char show[ROWS][COLS],int row,int col)
-// {
-//     int x = 0;
-//     int y = 0;
-//     int a = 0;
-//     int b = 0;
-//     int win = sum(show,ROW,COL);
-//     while(win>minenum)
-//     {
-//         printf("请输入坐标:>");
-//         scanf("%d,%d",&x,&y);
-//         if(x>=1 && x<=row && y>=1 && y<=col)
-//         {
-//             if(mine[x][y]=='1')
-//             {
-//                 printf("你被炸死了...\n");
-//                 displayboard(mine,row,col);
-//                 break;
-//             }
-//             else
-//             {
-//                 circle(mine,show,x,y,row,col);
-//                 displayboard(show,row,col);
-//                 win = sum(show,ROW,COL);
-//             }
-//         }
-//         else
-//         {
-//             printf("坐标输出错误，请重新输入!\n");
-//         }
-//     }
-//     if(win == minenum)
-//     {
-//         printf("恭喜你，扫雷成功!\n");
-//         displayboard(mine,row,col);
-//     }
-// }
-// void game()
-// {
-//     char mine[ROWS][COLS] = { 0 };
-//     char show[ROWS][COLS] = { 0 };
-//     initboard(mine,ROWS,COLS,'0');
-//     initboard(show,ROWS,COLS,'*');
-//     displayboard(show,ROW,COL);
-//     getmine(mine,ROW,COL);
-//     //displayboard(mine,ROW,COL);
-//     findmine(mine,show,ROW,COL);
-// }
-// void menu()
-// {
-//     printf("**********扫雷**********\n");
-//     printf("***********************\n");
-//     printf("*****1.play 0.exit*****\n");
-//     printf("***********************\n");
-// }
-// void test()
-// {
-//     srand((unsigned int)time(NULL));
-//     int input = 0;
-//     do
-//     {
-//         menu();
-//         scanf("%d",&input);
-//         switch(input)
-//         {
-//             case 1:
-//             game();
-//             break;
-//             case 0:
-//             printf("退出游戏\n");
-//             break;
-//             default:
-//             printf("输入错误，请重新输入!\n");
-//             break;
-//         }
-//     }while(input);
-// }
-// int main()
-// {
-//     test();
-//     return 0;
-// }
+//完美扫雷游戏
+/*#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
+#define ROW 20  
+#define COL 20
+#define ROWS ROW + 2
+#define COLS COL + 2
+#define minenum 40
+void initboard(char board[ROWS][COLS],int rows,int cols,char set)
+{
+    int i = 0;
+    int j = 0;
+    for(i=0;i<rows;i++)
+    {
+        for(j=0;j<cols;j++)
+        {
+            board[i][j] = set;
+        }
+    }
+}
+void displayboard(char board[ROWS][COLS],int row,int col)
+{
+    int i = 0;
+    int j = 0;
+    printf("雷数为%d\n",minenum);
+    for(i=0;i<=col;i++)
+    {
+        printf("%-2d ",i);
+    }
+    printf("\n");
+    for(i=1;i<=row;i++)
+    {
+        printf("%-2d ",i);
+        for(j=1;j<=col;j++)
+        {
+            printf("%-2c ",board[i][j]);
+        }
+        printf("\n");
+    }
+}
+void getmine(char board[ROWS][COLS],int row,int col)
+{
+    int count = minenum;
+    while(count)
+    {
+        int x = rand()%row+1;
+        int y = rand()%row+1;
+        if(board[x][y]=='0')
+        {
+            board[x][y]='1';
+            count--;
+        } 
+    }
+}
+int check(char mine[ROWS][COLS],int x,int y)
+{
+    return mine[x-1][y]+
+           mine[x+1][y]+
+           mine[x][y+1]+
+           mine[x][y-1]+
+           mine[x+1][y+1]+
+           mine[x-1][y+1]+
+           mine[x+1][y-1]+
+           mine[x-1][y-1]-8*'0';
+}
+int sum(char mine[ROWS][COLS],int row,int col)
+{
+    int i = 0;
+    int j = 0;
+    int l = 0;
+    for(i=1;i<=row;i++)
+    {
+        for(j=1;j<=col;j++)
+        {
+            if(mine[i][j]=='*')
+            {
+                l++;
+            }
+        }
+    }
+    return l;
+}
+void dround(char mine[ROWS][COLS],char show[ROWS][COLS],int o,int p)
+{
+    int e = 0;
+    int r = 0;
+    int a = 0;
+    int b = 0;
+    int t = 0;
+    for(e=-1;e<=1;e++)
+    {
+        for(r=-1;r<=1;r++)
+        {
+            a = o + e;
+            b = p + r;
+            t = check(mine,a,b);
+            show[a][b] = t + '0';
+        }
+    }
+}
+void expand(char mine[ROWS][COLS], int x, int y, char show[ROWS][COLS])
+{
+
+    int i = -1;
+    int j = -1;
+    for (i = -1; i < 2; i++)      //边界
+    {
+        for (j = -1; j < 2; j++)
+        {
+            if (i != 0 || j != 0)      // 避免排到自己注意此处的逻辑关系
+            {
+                if (x + i >= 1 && x + i <= ROW && y + j >= 1 && y + j <= COL)     //x y坐标是否合法
+                {
+                    if (show[x + i][y + j] == '*'&&mine[x+i][y+j]!='1')
+                    {
+
+                        int count = check(mine, x + i, y + j);
+                        if (count != 0)
+                        {
+                            show[x + i][y + j] = count + '0';
+                        }
+                        else
+                        {
+                            show[x + i][y + j] = ' ';
+                            expand(mine, x + i, y + j, show);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+void findmine(char mine[ROWS][COLS],char show[ROWS][COLS],int row,int col)
+{
+    int x = 0;
+    int y = 0;
+    int a = 0;
+    int b = 0;
+    int win = sum(show,ROW,COL);
+    while(win>minenum)
+    {
+        printf("请输入坐标:>");
+        scanf("%d,%d",&x,&y);
+        if(x>=1 && x<=row && y>=1 && y<=col)
+        {
+            if(mine[x][y]=='1')
+            {
+                printf("你被炸死了...\n");
+                displayboard(mine,row,col);
+                break;
+            }
+            else
+            {
+                expand(mine,x,y,show);
+                displayboard(show,row,col);
+                win = sum(show,ROW,COL);
+            }
+        }
+        else
+        {
+            printf("坐标输出错误，请重新输入!\n");
+        }
+    }
+    if(win == minenum)
+    {
+        printf("恭喜你，扫雷成功!\n");
+        displayboard(mine,row,col);
+    }
+}
+void game()
+{
+    char mine[ROWS][COLS] = { 0 };
+    char show[ROWS][COLS] = { 0 };
+    initboard(mine,ROWS,COLS,'0');
+    initboard(show,ROWS,COLS,'*');
+    displayboard(show,ROW,COL);
+    getmine(mine,ROW,COL);
+    //displayboard(mine,ROW,COL);
+    findmine(mine,show,ROW,COL);
+}
+void menu()
+{
+    printf("**********扫雷**********\n");
+    printf("***********************\n");
+    printf("*****1.play 0.exit*****\n");
+    printf("***********************\n");
+}
+void test()
+{
+    srand((unsigned int)time(NULL));
+    int input = 0;
+    do
+    {
+        menu();
+        scanf("%d",&input);
+        switch(input)
+        {
+            case 1:
+            game();
+            break;
+            case 0:
+            printf("退出游戏\n");
+            break;
+            default:
+            printf("输入错误，请重新输入!\n");
+            break;
+        }
+    }while(input);
+}
+int main()
+{
+    test();
+    return 0;
+}*/
 //冒泡排序
 // #include<stdio.h>
 //  void bubble_sort(int arr[],int sz)
