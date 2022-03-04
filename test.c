@@ -1,56 +1,99 @@
 //简化阶梯型矩阵(持续更新中)
-#define ROW 20
-#define COL 20
-#include<stdio.h>
-#include<string.h>
-void print(int(*p)[COL],int row,int col)
-{
-    int i = 0;
-    for(i=0;i<row;i++)
-    {
-        int j = 0;
-        for(j=0;j<col;j++)
-        {
-            printf("%d ",p[i][j]);
-        }
-        printf("\n");
-    }
-}
-int main()
-{
-    int arr[ROW][COL] = {0};//不将接受数组分装成一个函数，
-    int col = 0;              //因为其无法返回接受个数使代码复杂,所以将接受与输出放入同一个函数里
-    int row = 0;
-    int e = 0;
-    int n = 0;
-    char c,b;
-    char s[5] = {0};
-    while(1)
-    {
-        e = col+1;
-        col = 0;
-        scanf("%d",&arr[row][col]);
-        b = getchar();
-        if(b == '*'||b == '^'||b == '+'||b=='-'||b=='f')
-        {
-            goto next;
-        }
-        do
-        {
-            scanf("%d",&arr[row][col+1]);
-            col++;
-            c = getchar();
-        }while(c !='\n');
-        row++;
-    }
-    next:
-    if(b == '*')
-    {
-        //接受另一个矩阵
-    }      
-    print(arr,row,e);
-    return 0;
-}
+// #define ROW 20
+// #define COL 20
+// #include<stdio.h>
+// #include<string.h>
+// void print(int(*p)[COL],int row,int col)
+// {
+//     int i = 0;
+//     for(i=0;i<row;i++)
+//     {
+//         int j = 0;
+//         for(j=0;j<col;j++)
+//         {
+//             printf("%d ",p[i][j]);
+//         }
+//         printf("\n");
+//     }
+// }
+// int main()
+// {
+//     int arr[ROW][COL] = {0};//不将接受数组分装成一个函数，
+//     int col = 0;              //因为其无法返回接受个数使代码复杂,所以将接受与输出放入同一个函数里
+//     int row = 0;
+//     int e = 0;
+//     int n = 0;
+//     char c,b;
+//     char s[5] = {0};
+//     while(1)
+//     {
+//         e = col+1;
+//         col = 0;
+//         scanf("%d",&arr[row][col]);
+//         b = getchar();
+//         if(b == '*'||b == '^'||b == '+'||b=='-'||b=='f')
+//         {
+//             goto next;
+//         }
+//         do
+//         {
+//             scanf("%d",&arr[row][col+1]);
+//             col++;
+//             c = getchar();
+//         }while(c !='\n');
+//         row++;
+//     }
+//     next:
+//     if(b == '*')
+//     {
+//         //接受另一个矩阵
+//     }      
+//     print(arr,row,e);
+//     return 0;
+// }
+//水仙花数
+// #include<stdio.h>
+// void getArr(int n,int *arr,int count,int* p1)
+// {
+//     if(n>9)
+//     {
+//         getArr(n/10,arr,count+1,p1);
+//     }
+//     (*p1)++;
+//     arr[count] = n%10;
+// }
+// int main()
+// {
+//     int i = 0;
+//     int a;
+//     int count = 0;
+//     int arr[5] = {0};
+//     for(i=0;i<=100000;i++)
+//     {
+//         int y = 0;
+//         getArr(i,arr,count,&y);
+//         int j = 0;
+//         int sum = 0;
+//         int *p = arr;
+//         int m = 0;
+//         for(j=0;j<y;j++)
+//         {
+//             int z = 0;
+//             a = 1;
+//             for(z=0;z<y;z++)
+//             {
+//                 a *= p[m];
+//             }
+//             m++;
+//             sum += a;
+//         }
+//         if(sum == i)
+//         {
+//             printf("%d ",i);
+//         }
+//     }
+//     return 0;
+// }
 //打印空心等边三角形
 // #include<stdio.h>
 // int main()
