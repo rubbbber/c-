@@ -1,3 +1,116 @@
+//喝汽水问题
+// #include<stdio.h>
+// int main()
+// {
+//     int n = 0;
+//     scanf("%d",&n);
+//     int sum = n+n%2;
+//     int empty = 0;
+//     while(n/=2)
+//     {
+//         sum += n + empty;
+//         empty = n%2;
+//     }
+//     printf("%d\n",sum);
+//     return 0;
+// }
+//将一个数组的奇数放在偶数前面
+// #include<stdio.h>
+// void change(int*arr,int sz)
+// {
+//     int* left = arr;
+//     int* right = arr + sz - 1;
+//     while(left<right)
+//     {
+//         while(left<right&&(*left%2)==0)
+//         {
+//             left++;
+//         }
+//         while(left<right&&(*right%2)==1)
+//         {
+//             right--;
+//         }
+//         if(left<right)
+//         {
+//             int tmp = *left;
+//             *left = *right;
+//             *right = tmp;
+//         }
+//     }
+// }
+// void print(int arr[],int sz)
+// {
+//     int i = 0;
+//     for(i=0;i<sz;i++)
+//     {
+//         printf("%d ",arr[i]);
+//     }
+//     printf("\n");
+// }
+// int main()
+// {
+//     int arr[] = {1,3,5,7,9};
+//     int sz = sizeof(arr) / sizeof(arr[0]);
+//     change(arr,sz);
+//     print(arr,sz);
+//     return 0;
+// }
+//交换输入的数组
+// #include<stdio.h>
+// #include<string.h>
+// #include<assert.h>
+// void reverse(char*p)
+// {
+//     assert(p);
+//     int len = strlen(p);
+//     char*left = p;
+//     char*right = p + len - 1;
+//     while(left<right)
+//     {
+//         char tmp;
+//         tmp = *left;
+//         *left = *right;
+//         *right = tmp;
+//         left++;
+//         right--;
+//     }
+// }
+// int main()
+// {
+//     char ch[100] = {0};
+//     gets(ch);
+//     reverse(ch);
+//     printf("%s",ch);
+//     return 0;
+// }
+//水仙花数精简版
+// #include<stdio.h>
+// #include<math.h>
+// int main()
+// {
+//     int i = 0;
+//     for(i=0;i<=100000;i++)
+//     {
+//         int n = i;
+//         int sum = 0;
+//         int tmp = 1;
+//         while(n/=10)
+//         {
+//             tmp++; //判断几位数
+//         }
+//         n = i;
+//         while(n)
+//         {
+//             sum += (int)pow(n%10,tmp);
+//             n /= 10;
+//         }
+//         if(sum == i)
+//         {
+//             printf("%d ",i);
+//         }
+//     }
+//     return 0;
+// }
 //简化阶梯型矩阵(持续更新中)
 // #define ROW 20
 // #define COL 20
