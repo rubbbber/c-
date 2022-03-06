@@ -1,3 +1,51 @@
+//求数组中两个数之差的最小值
+// #include<stdio.h>
+// void scanArr(int*arr,int a)
+// {
+//     int i = 0;
+//     for(i=0;i<a;i++)
+//     {
+//         scanf("%d",arr);
+//         arr++;
+//     }
+// }
+// int max(int*arr,int a)
+// {
+//     int i = 0;
+//     int b = arr[0]-arr[1];
+//     for(i=0;i<=a-1;i++)
+//     {
+//         int j = 0;
+//         for(j=0;j<=a-1;j++)
+//         {
+//             if(i!=j)
+//             {
+//                 if(b<arr[i] - arr[j])
+//                 {
+//                     b = arr[i] - arr[j];
+//                 }
+//             }
+//         }
+//     }
+//     return b;
+// }
+// int main()
+// {
+//     int a = 0;
+//     scanf("%d",&a);
+//     if(a>1&&a<=10000)
+//     {
+//         int arr[10000];
+//         scanArr(arr,a);
+//         int Max = max(arr,a);
+//         printf("%d\n",Max);
+//     }
+//     else
+//     {
+//         printf("输出错误\n");
+//     }
+//     return 0;
+// }
 //喝汽水问题
 // #include<stdio.h>
 // int main()
