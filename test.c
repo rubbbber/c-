@@ -1,3 +1,32 @@
+//三部反转法
+#include<stdio.h>
+#include<string.h>
+void reverse(char*arr,int a)
+{
+    char*left = arr;
+    char*right = &arr[a];
+    while(left<right)
+    {
+        char tmp = *left;
+        *left = *right;
+        *right = tmp;
+        left++;
+        right--;
+    }
+}
+int main()
+{
+    char arr[] = "abcdef";
+    int n = 0;
+    int len = strlen(arr);
+    scanf("%d",&n);
+    reverse(arr,n-1);
+    reverse(arr+n,len-n-1);
+    reverse(arr,len-1);
+    printf("%s\n",arr);
+    return 0;
+}
+//查找字符串
 //求数组中两个数之差的最小值
 // #include<stdio.h>
 // void scanArr(int*arr,int a)
@@ -536,7 +565,7 @@
 // }
 // int main()
 // {
-//     void(*print[])(void*,int) = {print1,print2,print3};
+//     void(*printvoid*,int) = {print1,print2,print3};
 //     test1(print);
 //     test2(print);
 //     test3(print);
