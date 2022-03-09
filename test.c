@@ -1,32 +1,86 @@
-//三部反转法
+//小用memcpy memmove
 #include<stdio.h>
 #include<string.h>
-void reverse(char*arr,int a)
-{
-    char*left = arr;
-    char*right = &arr[a];
-    while(left<right)
-    {
-        char tmp = *left;
-        *left = *right;
-        *right = tmp;
-        left++;
-        right--;
-    }
-}
+#include<assert.h>
+// void*my_memcpy(void*dest,void*src,size_t count)
+// {
+//     char* ret = dest;
+//     assert(dest);
+//     assert(src);
+//     while(count--)
+//     {
+//         *(char*)dest = *(char*)src;
+//         ++dest;
+//         ++src;
+//     }
+//     return ret;
+// }
 int main()
 {
-    char arr[] = "abcdef";
-    int n = 0;
-    int len = strlen(arr);
-    scanf("%d",&n);
-    reverse(arr,n-1);
-    reverse(arr+n,len-n-1);
-    reverse(arr,len-1);
-    printf("%s\n",arr);
+    int arr1[] = {1,2,3,4,5,6,7,8,9,10};
+    int arr2[10] = {0};
+    //my_memcpy(arr2,arr1,sizeof(arr1));
+    memmove(arr1+2,arr1,20);
     return 0;
 }
-//查找字符串
+//小用ctype
+// #include<ctype.h>
+// #include<stdio.h>
+// int main()
+// {
+//     char ch = 'a';
+//     int ret = isdigit(ch);
+//     printf("%d",ret);
+//     return 0;
+// }
+//查找左旋字符串
+// #include<stdio.h>
+// #include<string.h>
+// void my_strncat(char*arr1,char*arr2,int len)
+// {
+//     arr1 = arr1 + len;
+//     while(len--!=0)
+//     {
+//         *arr1 = *arr2;
+//         arr1++;
+//         arr2++;
+//     }
+// }
+// int main()
+// {
+//     char arr1[30] = "abcdeef";
+//     int len = strlen(arr1);
+//     my_strncat(arr1,arr1,len);//这里使用strncat无法自身追加自身
+//     printf("%s\n",arr1);
+// }
+//三部反转法
+// #include<stdio.h>
+// #include<string.h>
+// void reverse(char*arr,int a)
+// {
+//     char*left = arr;
+//     char*right = &arr[a];
+//     while(left<right)
+//     {
+//         char tmp = *left;
+//         *left = *right;
+//         *right = tmp;
+//         left++;
+//         right--;
+//     }
+// }
+// int main()
+// {
+//     char arr[] = "abcdef";
+//     int n = 0;
+//     int len = strlen(arr);
+//     scanf("%d",&n);
+//     reverse(arr,n-1);
+//     reverse(arr+n,len-n-1);
+//     reverse(arr,len-1);
+//     printf("%s\n",arr);
+//     return 0;
+// }
 //求数组中两个数之差的最小值
 // #include<stdio.h>
 // void scanArr(int*arr,int a)
