@@ -1,7 +1,54 @@
+//通讯录的实现
+
+//判断一个数是否有222
+// #include<stdio.h>
+// int count(int i)
+// {
+//     int z = 0;
+//     do
+//     {
+//         if(i % 10==2)
+//         {
+//             int j = 0;
+//             for(j=0;j<2;j++)
+//             {
+//                 i /= 10;
+//                 if(i % 10 == 2)
+//                 {
+//                     z++;
+//                 }
+//             }
+//         }
+//         if(z == 2)
+//         {
+//             return 1;
+//         }
+//     } while (i/=10);
+//     return 0;
+// }
+// int main()
+// {
+//     int a = 0;
+//     int p = 0;
+//     scanf("%d",&a);
+//     if(a>=1 || a<=1000000)
+//     {
+//         int i = 0;
+//         for(i=1;i<=a;i++)
+//         {
+//             if(count(i) == 1)
+//             {
+//                 p++;
+//             }
+//         }
+//     }
+//     printf("%d\n",p);
+//     return 0;
+// }
 //小用memcpy memmove
-#include<stdio.h>
-#include<string.h>
-#include<assert.h>
+// #include<stdio.h>
+// #include<string.h>
+// #include<assert.h>
 // void*my_memcpy(void*dest,void*src,size_t count)
 // {
 //     char* ret = dest;
@@ -15,14 +62,14 @@
 //     }
 //     return ret;
 // }
-int main()
-{
-    int arr1[] = {1,2,3,4,5,6,7,8,9,10};
-    int arr2[10] = {0};
-    //my_memcpy(arr2,arr1,sizeof(arr1));
-    memmove(arr1+2,arr1,20);
-    return 0;
-}
+// int main()
+// {
+//     int arr1[] = {1,2,3,4,5,6,7,8,9,10};
+//     int arr2[10] = {0};
+//     //my_memcpy(arr2,arr1,sizeof(arr1));
+//     memmove(arr1+2,arr1,20);
+//     return 0;
+// }
 //小用ctype
 // #include<ctype.h>
 // #include<stdio.h>
