@@ -1,5 +1,73 @@
-//通讯录的实现
-
+//通讯录的实现(中级版)
+//柔性数组与其相似标准型
+// #include<stdlib.h>
+// #include<stdio.h>
+// typedef struct S
+// {
+//     int i;
+//     int*arr;
+// }s;
+// int main()
+// {
+//     int i;
+//     s*ps = (s*)malloc(sizeof(s));
+//     ps->arr = (int*)malloc(5*sizeof(int));
+//     for(i=0;i<5;i++)
+//     {
+//         ps->arr[i] = i;
+//     }
+//     int*ptr = (int*)realloc(ps->arr,5*sizeof(int));
+//     if(ptr != NULL)
+//     {
+//         ps->arr = ptr;
+//     }
+//     for(i=5;i<10;i++)
+//     {
+//         ps->arr[i] = i;
+//     }
+//     for(i=0;i<10;i++)
+//     {
+//         printf("%d ",ps->arr[i]);
+//     }
+//     free(ps->arr);
+//     ps->arr = NULL;
+//     free(ps);
+//     ps = NULL;
+//     return 0;
+// }
+// #include<stdio.h>
+// #include<stdlib.h>
+// int main()
+// {
+//     int i;
+//     struct S
+//     {
+//         int i;
+//         int arr[];
+//     };
+//     struct S*ps = (struct S*)malloc(sizeof(struct S)+5*sizeof(int));
+//     ps->i = 100;
+//     for(i=0;i<5;i++)
+//     {
+//         ps->arr[i] = i;
+//     }
+//     struct S*ptr = (struct S*)realloc(ps,5*sizeof(int));
+//     if(ptr != 0)
+//     {
+//         ps = ptr;
+//     }
+//     for(i=5;i<10;i++)
+//     {
+//         ps->arr[i] = i;
+//     }
+//     for(i=0;i<10;i++)
+//     {
+//         printf("%d ",ps->arr[i]);
+//     }
+//     free(ps);
+//     ps = NULL;
+//     return 0;
+// }
 //判断一个数是否有222
 // #include<stdio.h>
 // int count(int i)
@@ -666,7 +734,7 @@
 // }
 // int main()
 // {
-//     void(*printvoid*,int) = {print1,print2,print3};
+//     void(*print[3])(void*,int) = {print1,print2,print3};
 //     test1(print);
 //     test2(print);
 //     test3(print);
