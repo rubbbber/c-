@@ -1,4 +1,29 @@
 //通讯录的实现(中级版)
+#include "test.h"
+//#include<stdio.h>
+int main()
+{
+    int input;
+    do
+    {
+        menu();
+        C con;//初始化
+        initCon(&con);
+        scanf("%d",&input);
+        switch (input)
+        {
+        case Exit:
+            break;
+        case Add:
+            addinfo(&con);
+            break;
+        default:
+            printf("输入错误请重新输入\n");
+            break;
+        }
+    } while (input);
+    return 0;
+}
 //柔性数组与其相似标准型
 // #include<stdlib.h>
 // #include<stdio.h>
@@ -35,6 +60,7 @@
 //     ps = NULL;
 //     return 0;
 // }
+//柔性数组
 // #include<stdio.h>
 // #include<stdlib.h>
 // int main()
