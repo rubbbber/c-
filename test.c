@@ -1,14 +1,13 @@
 //通讯录的实现(中级版)
 #include "test.h"
-//#include<stdio.h>
 int main()
 {
     int input;
+    C con;
+    initCon(&con);
     do
     {
         menu();
-        C con;//初始化
-        initCon(&con);
         scanf("%d",&input);
         switch (input)
         {
@@ -17,11 +16,24 @@ int main()
         case Add:
             addinfo(&con);
             break;
+        case Del:
+            delinfo(&con);
+            break;
+        case Show:
+            showinfo(&con);
+            break;
+        case Sreach:
+            sreachinfo(&con);
+            break;
+        case Modify:
+            modinfo(&con);
+            break;
         default:
             printf("输入错误请重新输入\n");
             break;
         }
     } while (input);
+    destoryContact(&con);
     return 0;
 }
 //柔性数组与其相似标准型

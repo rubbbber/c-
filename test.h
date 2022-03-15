@@ -1,18 +1,20 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 void menu();
 enum F
 {
     Exit,
     Add,
     Del,
+    Show,
     Sreach,
-    Sort,
-    Modify
+    Modify,
+    Sort
 };
 typedef struct Peoinfo
 {
-    char name[5];
+    char name[10];
     char tele[20];
     int age;
     char address[20];
@@ -26,3 +28,10 @@ typedef struct Contact
 }C;
 void initCon();
 void addinfo();
+void showinfo();
+void delinfo();
+void sreachinfo();
+void destoryContact();
+void modinfo();
+int supersreach();
+int findinfo();
