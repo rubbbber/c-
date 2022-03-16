@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 void menu();
+void menu2();
 enum F
 {
     Exit,
@@ -33,5 +34,6 @@ void delinfo();
 void sreachinfo();
 void destoryContact();
 void modinfo();
+void sortinfo();
 int supersreach();
 int findinfo();

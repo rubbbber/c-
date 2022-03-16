@@ -1,12 +1,20 @@
-//#include<stdio.h>
 #include "test.h"
 void menu()
 {
     printf("*************************\n");
-    printf("***1.add        2.del****\n");
+    printf("***1.add     2.del   ****\n");
     printf("***3.show    4.sreach****\n");
-    printf("***5.modify    0.exit****\n");
+    printf("***5.modify  6.sort  ****\n");
+    printf("******  0.exit  *********\n");
     printf("*************************\n");
+    printf("请输入您想要的功能:>");
+}
+void menu2()
+{
+    printf("***********************\n");
+    printf("*******1.名字排序******\n");
+    printf("*******2.年龄排序******\n");
+    printf("***********************\n");
     printf("请输入您想要的功能:>");
 }
 void initCon(C*p)
@@ -19,10 +27,10 @@ void addinfo(C*p)
 {
     if(p->size == p->capacity)
     {
-        Peo*ps = (Peo*)realloc(p->Date,1*sizeof(Peo));
+        Peo*ps = (Peo*)realloc(p->Date,(p->capacity+1)*sizeof(Peo));
         if(ps != NULL)
         {
-            ps = p->Date;
+            p->Date = ps;
         }
         p->capacity++;
     }
@@ -135,19 +143,54 @@ void modinfo(C*p)
     int i;
     printf("请输入想要更改成员的名字:>");
     i = findinfo(p);
-    printf("请输入姓名:>");
-    scanf("%s",p->Date[i].name);
-    printf("请输入电话:>");
-    scanf("%s",p->Date[i].tele);
-    printf("请输入年龄:>");
-    scanf("%d",&p->Date[i].age);
-    printf("请输入地址:>");
-    scanf("%s",p->Date[i].address);
-    printf("请输入身份证号:>");
-    scanf("%s",p->Date[i].id);
+    if(i==-1)
+    {
+        printf("没有找到\n");
+    }
+    else
+    {
+        printf("请输入姓名:>");
+        scanf("%s",p->Date[i].name);
+        printf("请输入电话:>");
+        scanf("%s",p->Date[i].tele);
+        printf("请输入年龄:>");
+        scanf("%d",&p->Date[i].age);
+        printf("请输入地址:>");
+        scanf("%s",p->Date[i].address);
+        printf("请输入身份证号:>");
+        scanf("%s",p->Date[i].id);
+    }
 }
 void destoryContact(C*p)
 {
     free(p->Date);
     p->Date = NULL;
+}
+int compare2(const void *s1,const void *s2)
+{
+    return strcmp(((Peo*)s1)->name,((Peo*)s2)->name);
+}
+int compare1(const void *s1,const void *s2)
+{
+    return ((Peo*)s1)->age - ((Peo*)s2)->age;
+}
+void sortinfo(C*p)
+{
+    int a;
+    menu2();
+    scanf("%d",&a);
+    if(a==1)
+    {
+        qsort(p->Date,p->size,sizeof(p->Date[0]),compare1);
+        printf("排序成功\n");
+    }
+    else if(a==2)
+    {
+        qsort(p->Date,p->size,sizeof(p->Date[0]),compare2);
+        printf("排序成功\n");
+    }
+    else
+    {
+        printf("已退出排序\n");
+    }
 }

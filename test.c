@@ -28,6 +28,9 @@ int main()
         case Modify:
             modinfo(&con);
             break;
+        case Sort:
+            sortinfo(&con);
+            break;
         default:
             printf("输入错误请重新输入\n");
             break;
@@ -36,6 +39,17 @@ int main()
     destoryContact(&con);
     return 0;
 }
+//注意点2
+// #include<stdio.h>
+// int main()
+// {
+//     float a,b;
+//     char c;
+//     int d;
+//     scanf("%f%f %c%d",&a,&b,&c,&d);//%c之前要用空格隔开否则读取到的是空格
+//     printf("%f %f %c %d\n",a,b,c,d);
+//     return 0;
+// }
 //柔性数组与其相似标准型
 // #include<stdlib.h>
 // #include<stdio.h>
@@ -968,6 +982,17 @@ int main()
 //     }
 //     return 0;
 // }
+//英寸换算
+// #include<stdio.h>
+// int main()
+// {
+//     float a;
+//     scanf("%f",&a);
+//     a/=30.48;
+//     a*=12;
+//     printf("%d ",(int)(a/12));
+//     printf("%d",(int)a%12);
+// }
 //完美实现strlen函数
 // #include<stdio.h>
 // #include<assert.h>
@@ -1587,6 +1612,26 @@ int main()
 //     int b = 10;
 //     max = (a > b ? a : b);
 //     return 0;
+// }
+//顺序数
+// #include<stdio.h>
+// int main()
+// {
+//     int a,b;
+//     scanf("%d",&a);
+//     b = a%10;
+//     do
+//     {
+//         if(a%10!=0)
+//         {
+//             printf("%d",a%10);
+//         }
+//         if(a%10==0&&b!=0)
+//         {
+//             printf("%d",a%10);
+//         }
+//     } while (a/=10);
+    
 // }
 //求英文字符大小
 // #include<stdio.h>
