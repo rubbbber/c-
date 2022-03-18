@@ -5,7 +5,7 @@ void menu()
     printf("***1.add     2.del   ****\n");
     printf("***3.show    4.sreach****\n");
     printf("***5.modify  6.sort  ****\n");
-    printf("******  0.exit  *********\n");
+    printf("***7.save    0.exit  ****\n");
     printf("*************************\n");
     printf("请输入您想要的功能:>");
 }
@@ -17,13 +17,7 @@ void menu2()
     printf("***********************\n");
     printf("请输入您想要的功能:>");
 }
-void initCon(C*p)
-{
-    p->Date = (Peo*)malloc(2*sizeof(Peo));
-    p->capacity = 2;
-    p->size = 0;
-}
-void addinfo(C*p)
+void checkCapacity(C*p)
 {
     if(p->size == p->capacity)
     {
@@ -34,6 +28,31 @@ void addinfo(C*p)
         }
         p->capacity++;
     }
+}
+void initCon(C*p)
+{
+    Peo tmp = {0};
+    p->Date = (Peo*)malloc(2*sizeof(Peo));
+    p->capacity = 2;
+    p->size = 0;
+    FILE*pf = fopen("test.dat","rb");
+    if(pf == NULL)
+    {
+        perror("initCon");
+        return;
+    }
+    while(fread(&tmp,sizeof(Peo),1,pf))
+    {
+        checkCapacity(p);
+        p->Date[p->size] = tmp;
+        p->size++;
+    }
+    fclose(pf);
+    pf = NULL;
+}
+void addinfo(C*p)
+{
+    checkCapacity(p);
     printf("请输入姓名:>");
     scanf("%s",p->Date[p->size].name);
     printf("请输入电话:>");
@@ -193,4 +212,21 @@ void sortinfo(C*p)
     {
         printf("已退出排序\n");
     }
+}
+void saveinfo(C*p)
+{
+    int i =0;
+    Peo info;
+    FILE*pf = fopen("test.dat","wb");
+    if(pf == NULL)
+    {
+        printf("saveinfo::%s\n",strerror(errno));
+        return;
+    }
+    for(i=0;i<p->size;i++)
+    {
+        fwrite(&(p->Date[i]),sizeof(Peo),1,pf);
+    }
+    fclose(pf);
+    pf = NULL;
 }

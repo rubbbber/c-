@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<errno.h>
 void menu();
 void menu2();
 enum F
@@ -11,7 +12,8 @@ enum F
     Show,
     Sreach,
     Modify,
-    Sort
+    Sort,
+    Save
 };
 typedef struct Peoinfo
 {
@@ -35,5 +37,6 @@ void sreachinfo();
 void destoryContact();
 void modinfo();
 void sortinfo();
+void saveinfo();
 int supersreach();
 int findinfo();

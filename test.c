@@ -1,7 +1,20 @@
+// #include<stdio.h>
+// struct S
+// {
+//     int size;
+//     int capacity;
+// };
+
+// int main()
+// {
+//     int a;
+//     scanf("%d",&a);
+//     for()
+// }
 //通讯录的实现(中级版)
 #include "test.h"
 int main()
-{
+{ 
     int input;
     C con;
     initCon(&con);
@@ -30,6 +43,9 @@ int main()
             break;
         case Sort:
             sortinfo(&con);
+            break;
+        case Save:
+            saveinfo(&con);
             break;
         default:
             printf("输入错误请重新输入\n");
