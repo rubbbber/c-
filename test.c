@@ -1,5 +1,44 @@
 //秦九韶算法
+// #include <stdio.h>
+// int main()
+// {
+//     long long n, c, a, s = 0, d = 1, flag = 0;
+//     scanf("%lld %lld", &n, &c);
+//     c = c % 114514;
+//     for (long long i = 0; i <= n; i++) 
+//     {
+//         if (flag == 0) 
+//         {
+//             flag = 1;
+//         }
+//         else
+//         {
+//             d *= c;
+//         }
+//         d %= 114514;
+//         scanf("%lld", &a);
+//         s += ((a * d) % 114514);
+//         s %= 114514;
+//     }
+//     printf("%lld\n", s);
+//     return 0;
+// }
 //求一组数去掉多少个数成为等差数列(柔性数组版)
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct 
+{
+    int size;
+    int capacity;
+    int*a;
+    int arr[];
+}S;
+int main()
+{
+    S*ps = (S*)malloc(sizeof(S)+3*sizeof(int));   
+
+    return 0;
+}
 //通讯录的实现(中级版)
 // #include<stdio.h>
 // #include<stdlib.h>
