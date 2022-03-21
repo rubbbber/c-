@@ -1,4 +1,120 @@
-//秦九韶算法
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+    int a;
+    scanf("%d",&a);
+    long long d =pow(10,a-1);
+    long long f =pow(10,a);
+    long long i,count=0;
+    for(i=d-1;i<f;i++)
+    {
+        int g = i;
+        int c = i;
+        long long b = 0;
+        do
+        {
+            b+=(g%10);
+        } while (g/=10);
+        long long j = 0;
+        for(j=0;j<a;j++)
+        {
+            if(c == b)
+            {
+                count++;
+            }
+            c/=10;
+        }
+    }
+    printf("%lld\n",count%1000000007);
+}
+// #include<stdio.h>
+// #include<math.h>
+// int main()
+// {
+//     long long n, m = 0, y = 1;
+//     scanf("%lld", &n);
+//     for (;y < sqrt(n);y++)
+//     {
+//         long long x = n - y * y;
+//         if (x % 2 == 0)
+//             m++;
+//     }
+//     printf("%lld\n", m);
+//     return 0;
+// }
+// #include<stdio.h>
+// #include<math.h>
+// #include <stdlib.h>
+// int compare(const void *s1,const void *s2)
+// {
+//     return *(int*)s1 - *(int*)s2;
+// }
+// int main()
+// {
+//     int a,i = 0;
+//     int j = 0;
+//     long long V,sum = 0,count = 0;
+//     scanf("%d%lld",&a,&V);
+//     int b = a;
+//     int arr[1024];
+//     while(b--)
+//     {
+//         scanf("%d",&arr[i]);
+//         i++;
+//     }
+//     qsort(arr,a,sizeof(int),compare);
+//     for(j=0;j<a;j++)
+//     {
+//         sum += arr[j];
+//         if(sum<=V)
+//         {
+//             count++;
+//         }
+//         else
+//         {
+//             break;
+//         }
+//     }
+//     printf("%lld\n",count);
+// }
+// #include<stdio.h>
+// #include<math.h>
+// int main()
+// {
+//     long long a,i,count = 0;
+//     scanf("%lld",&a);
+//     for(i=1;i<=(a/2);i++)
+//     {
+//         long long j;
+//         for(j=1;j<=sqrt(a-2*i);j++)
+//         {
+//             if(a == 2*i + pow(j,2))
+//             {
+//                 count++;
+//             }
+//         }
+//     }
+//     printf("%lld\n",count);
+//     return 0;
+// }
+//求一组数去掉多少个数成为等差数列(柔性数组版)
+// #include<stdio.h>
+// #include<stdlib.h>
+// typedef struct 
+// {
+//     int size;
+//     int capacity;
+//     int*a;//接收数组
+//     int arr[];//运算数组
+// }S;
+// int main()
+// {
+//     S*ps = (S*)malloc(sizeof(S)+3*sizeof(int));   
+
+//     return 0;
+// }
+// //秦九韶算法
 // #include <stdio.h>
 // int main()
 // {
@@ -23,22 +139,6 @@
 //     printf("%lld\n", s);
 //     return 0;
 // }
-//求一组数去掉多少个数成为等差数列(柔性数组版)
-#include<stdio.h>
-#include<stdlib.h>
-typedef struct 
-{
-    int size;
-    int capacity;
-    int*a;
-    int arr[];
-}S;
-int main()
-{
-    S*ps = (S*)malloc(sizeof(S)+3*sizeof(int));   
-
-    return 0;
-}
 //通讯录的实现(中级版)
 // #include<stdio.h>
 // #include<stdlib.h>
