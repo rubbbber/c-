@@ -1,33 +1,105 @@
+//qsort的再实现（插入排序）双指针
 #include<stdio.h>
-#include<math.h>
+#include<string.h>
+typedef struct
+{
+    char name[20];
+    int age;
+}S;
+void print(S*p,int sz)
+{
+    int i;
+    for(i=0;i<sz;i++)
+    {
+        printf("%s,%d",p[i].name,p[i].age);
+    }
+}
+int compare(const void*s1,const void*s2)
+{
+    //return strcmp(((S*)s1)->name, ((S*)s2)->name);
+    return ((S*)s1)->age-((S*)s2)->age;
+}
+void Swap(char*s1,char*s2,int width)
+{
+    int i = 0;
+    char tmp;
+    for(i=0;i<width;i++)
+    {
+        tmp = s1[i];
+        s1[i] = s2[i];
+        s2[i] = tmp;
+    }
+}
+void superBubble(void*base,int num,int width,int(*comp)(const void*,const void*))//int(*)()才为函数指针不为int*()
+{
+    //char*p = (char*)base;//插入排序的实现
+    int i = 0,j=0;
+    for(i=1;i<=num-1;i++)
+    {
+        base+=width;
+        while(compare(base-width*(j+1),base-width*j)>0)//比较两个数大小
+        {
+            Swap(base-width*(j+1),base-width*j,width);
+            j++;
+            if(i<=j+1)
+            {
+                break;
+            }
+        }
+        j = 0;
+    }
+}
 int main()
 {
-    int a;
-    scanf("%d",&a);
-    long long d =pow(10,a-1);
-    long long f =pow(10,a);
-    long long i,count=0;
-    for(i=d-1;i<f;i++)
-    {
-        int g = i;
-        int c = i;
-        long long b = 0;
-        do
-        {
-            b+=(g%10);
-        } while (g/=10);
-        long long j = 0;
-        for(j=0;j<a;j++)
-        {
-            if(c == b)
-            {
-                count++;
-            }
-            c/=10;
-        }
-    }
-    printf("%lld\n",count%1000000007);
+    S a[3] = {{"zhangshan",19},{"lisi",17},{"wangwu",18}};
+    int sz = sizeof(a)/sizeof(a[0]);
+    superBubble(a,sz,sizeof(a[0]),compare);//不能写成compare(s1,s2)
+    print(a,sz);
 }
+//atoi的解释
+// #include <stdio.h>      /* printf, fgets */
+// #include <stdlib.h>     /* atoi */
+// int main ()
+// {
+//   int i =0;
+//   char buffer[256];
+//   printf ("Enter a number: ");
+//   fgets (buffer, 256, stdin);
+//   i = atoi (buffer);
+//   printf ("The value entered is %d. Its double is %d.\n",i,i*2);
+//   return 0;
+// }
+// 酒酒花数
+// #include<math.h>
+// int main()
+// {
+//     int a;
+//     scanf("%d",&a);
+//     long long d =pow(10,a-1);
+//     long long f =pow(10,a);
+//     long long i,count=0;
+//     for(i=d-1;i<f;i++)
+//     {
+//         int g = i;
+//         int c = i;
+//         long long b = 0;
+//         do
+//         {
+//             b+=(g%10);
+//         } while (g/=10);
+//         long long j = 0;
+//         for(j=0;j<a;j++)
+//         {
+//             if(c == b)
+//             {
+//                 count++;
+//             }
+//             c/=10;
+//         }
+//     }
+//     printf("%lld\n",count%1000000007);
+// }
+//求方程
 // #include<stdio.h>
 // #include<math.h>
 // int main()
@@ -43,6 +115,7 @@ int main()
 //     printf("%lld\n", m);
 //     return 0;
 // }
+//桃桃吃桃桃
 // #include<stdio.h>
 // #include<math.h>
 // #include <stdlib.h>
@@ -78,6 +151,7 @@ int main()
 //     }
 //     printf("%lld\n",count);
 // }
+//求方程的解n=2*x-y*y
 // #include<stdio.h>
 // #include<math.h>
 // int main()
