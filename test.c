@@ -1,61 +1,125 @@
-//qsort的再实现（插入排序）双指针
+//双链表(宏的创建)
+//单链表(宏的创建)
+//双链表(函数法的创建)
+//单链表(函数法的创建)
 #include<stdio.h>
-#include<string.h>
-typedef struct
+#include<stdlib.h>
+typedef struct NODE
 {
-    char name[20];
-    int age;
-}S;
-void print(S*p,int sz)
+    int num;
+    struct NODE *next;
+}Node;
+Node* buildSingleLink(int a)
 {
-    int i;
-    for(i=0;i<sz;i++)
+    size_t i = 0;
+    Node*head_link = NULL;
+    Node*end_link;
+    for(i=0;i<a;i++)
     {
-        printf("%s,%d",p[i].name,p[i].age);
-    }
-}
-int compare(const void*s1,const void*s2)
-{
-    //return strcmp(((S*)s1)->name, ((S*)s2)->name);
-    return ((S*)s1)->age-((S*)s2)->age;
-}
-void Swap(char*s1,char*s2,int width)
-{
-    int i = 0;
-    char tmp;
-    for(i=0;i<width;i++)
-    {
-        tmp = s1[i];
-        s1[i] = s2[i];
-        s2[i] = tmp;
-    }
-}
-void superBubble(void*base,int num,int width,int(*comp)(const void*,const void*))//int(*)()才为函数指针不为int*()
-{
-    //char*p = (char*)base;//插入排序的实现
-    int i = 0,j=0;
-    for(i=1;i<=num-1;i++)
-    {
-        base+=width;
-        while(compare(base-width*(j+1),base-width*j)>0)//比较两个数大小
+        Node*new_link = (Node*)malloc(sizeof(Node));
+        printf("输入%ld节点的名称为:>\n",i+1);
+        scanf("%d",&new_link->num);
+        new_link->next = NULL;
+        if(head_link == NULL)
         {
-            Swap(base-width*(j+1),base-width*j,width);
-            j++;
-            if(i<=j+1)
-            {
-                break;
-            }
+            head_link = new_link;
         }
-        j = 0;
+        else
+        {
+            end_link->next = new_link;
+        }
+        end_link = new_link;
     }
+    return head_link;
 }
 int main()
 {
-    S a[3] = {{"zhangshan",19},{"lisi",17},{"wangwu",18}};
-    int sz = sizeof(a)/sizeof(a[0]);
-    superBubble(a,sz,sizeof(a[0]),compare);//不能写成compare(s1,s2)
-    print(a,sz);
+    size_t a;
+    printf("你想要生成单链表的个数:>\n");
+    scanf("%ld",&a);
+    Node* L = buildSingleLink(a);
+    while(L!=NULL)
+    {
+        printf("%d ",L->num);
+        L=L->next;
+    }
+    free(L);
 }
+//二分法实现bsearch
+//求一组数去掉多少个数成为等差数列(柔性数组版)
+// #include<stdio.h>
+// #include<stdlib.h>
+// typedef struct 
+// {
+//     int size;
+//     int cap acity;
+//     int*a;//接收数组
+//     int arr[];//运算数组
+// }S;
+// int main()
+// {
+//     S*ps = (S*)malloc(sizeof(S)+3*sizeof(int));   
+
+//     return 0;
+// }
+//qsort的再实现（插入排序）双指针
+// #include<stdio.h>
+// #include<string.h>
+// typedef struct
+// {
+//     char name[20];
+//     int age;
+// }S;
+// void print(S*p,int sz)
+// {
+//     int i;
+//     for(i=0;i<sz;i++)
+//     {
+//         printf("%s,%d",p[i].name,p[i].age);
+//     }
+// }
+// int compare(const void*s1,const void*s2)
+// {
+//     //return strcmp(((S*)s1)->name, ((S*)s2)->name);
+//     return ((S*)s1)->age-((S*)s2)->age;
+// }
+// void Swap(char*s1,char*s2,int width)
+// {
+//     int i = 0;
+//     char tmp;
+//     for(i=0;i<width;i++)
+//     {
+//         tmp = s1[i];
+//         s1[i] = s2[i];
+//         s2[i] = tmp;
+//     }
+// }
+// void superBubble(void*base,int num,int width,int(*comp)(const void*,const void*))//int(*)()才为函数指针不为int*()
+// {
+//     //char*p = (char*)base;//插入排序的实现
+//     int i = 0,j=0;
+//     for(i=1;i<=num-1;i++)
+//     {
+//         base+=width;
+//         while(compare(base-width*(j+1),base-width*j)>0)//比较两个数大小
+//         {
+//             Swap(base-width*(j+1),base-width*j,width);
+//             j++;
+//             if(i<=j+1)
+//             {
+//                 break;
+//             }
+//         }
+//         j = 0;
+//     }
+// }
+// int main()
+// {
+//     S a[3] = {{"zhangshan",19},{"lisi",17},{"wangwu",18}};
+//     int sz = sizeof(a)/sizeof(a[0]);
+//     superBubble(a,sz,sizeof(a[0]),compare);//不能写成compare(s1,s2)
+//     print(a,sz);
+// }
 //atoi的解释
 // #include <stdio.h>      /* printf, fgets */
 // #include <stdlib.h>     /* atoi */
@@ -170,22 +234,6 @@ int main()
 //         }
 //     }
 //     printf("%lld\n",count);
-//     return 0;
-// }
-//求一组数去掉多少个数成为等差数列(柔性数组版)
-// #include<stdio.h>
-// #include<stdlib.h>
-// typedef struct 
-// {
-//     int size;
-//     int capacity;
-//     int*a;//接收数组
-//     int arr[];//运算数组
-// }S;
-// int main()
-// {
-//     S*ps = (S*)malloc(sizeof(S)+3*sizeof(int));   
-
 //     return 0;
 // }
 // //秦九韶算法
