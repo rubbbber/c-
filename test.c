@@ -1,50 +1,103 @@
 //双链表(宏的创建)
 //单链表(宏的创建)
 //双链表(函数法的创建)
-//单链表(函数法的创建)
-#include<stdio.h>
 #include<stdlib.h>
+#include<stdio.h>
 typedef struct NODE
 {
+    struct NODE*fwd;
+    struct NODE*bwd;
     int num;
-    struct NODE *next;
 }Node;
-Node* buildSingleLink(int a)
+Node*buildDoubleLink(size_t a)
 {
-    size_t i = 0;
+    size_t i;
     Node*head_link = NULL;
     Node*end_link;
     for(i=0;i<a;i++)
     {
         Node*new_link = (Node*)malloc(sizeof(Node));
-        printf("输入%ld节点的名称为:>\n",i+1);
+        printf("你想将序号为%ld的节点命名为:>",i+1);
         scanf("%d",&new_link->num);
-        new_link->next = NULL;
-        if(head_link == NULL)
+        new_link->fwd = NULL;
+        if(head_link==NULL)
         {
             head_link = new_link;
         }
         else
         {
-            end_link->next = new_link;
+            end_link->fwd = new_link;
+            new_link->bwd = end_link;
         }
         end_link = new_link;
+        if(i == a-1)
+        {
+            head_link->bwd = end_link;
+            end_link->fwd = head_link;
+        }
     }
     return head_link;
 }
 int main()
 {
-    size_t a;
-    printf("你想要生成单链表的个数:>\n");
+    size_t a,i;
+    Node*L;
+    printf("输入你想创建的双链表数:>");
     scanf("%ld",&a);
-    Node* L = buildSingleLink(a);
-    while(L!=NULL)
+    L = buildDoubleLink(a);
+    for(i=0;i<a;i++)
     {
+        L = L->bwd;
         printf("%d ",L->num);
-        L=L->next;
+        //L = L->fwd;
     }
     free(L);
+    return 0;
 }
+//单链表(函数法的创建)
+// #include<stdio.h>
+// #include<stdlib.h>
+// typedef struct NODE
+// {
+//     int num;
+//     struct NODE *next;
+// }Node;
+// Node* buildSingleLink(int a)
+// {
+//     size_t i = 0;
+//     Node*head_link = NULL;
+//     Node*end_link;
+//     for(i=0;i<a;i++)
+//     {
+//         Node*new_link = (Node*)malloc(sizeof(Node));
+//         printf("输入%ld节点的名称为:>",i+1);
+//         scanf("%d",&new_link->num);
+//         new_link->next = NULL;
+//         if(head_link == NULL)
+//         {
+//             head_link = new_link;
+//         }
+//         else
+//         {
+//             end_link->next = new_link;
+//         }
+//         end_link = new_link;
+//     }
+//     return head_link;
+// }
+// int main()
+// {
+//     size_t a;
+//     printf("你想要生成单链表的个数:>\n");
+//     scanf("%ld",&a);
+//     Node* L = buildSingleLink(a);
+//     while(L!=NULL)
+//     {
+//         printf("%d ",L->num);
+//         L=L->next;
+//     }
+//     free(L);
+// }
 //二分法实现bsearch
 //求一组数去掉多少个数成为等差数列(柔性数组版)
 // #include<stdio.h>
