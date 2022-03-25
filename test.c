@@ -1,51 +1,115 @@
 //双链表(宏的创建)
-//单链表(宏的创建)
-#include<stdlib.h>
 #include<stdio.h>
+#include<stdlib.h>
 typedef struct NODE
 {
-    struct NODE*next;
-    int num;
+    struct NODE*bwd1;
+    struct NODE*fwd2;
+    int num3;
 }Node;
-#define BUILDSINGLELINK(X,type)\
+#define BUILDDOUBLELINK(type,num,bwd,fwd,conum)\
 ({\
-size_t b,i;\
-type*head_link = NULL;\
-type*end_link;\
-for(i=0;i<X;i++)\
-{\
-    type*new_link = (type*)malloc(sizeof(type));\
-    new_link->next = NULL;\
-    printf("你想将此节点命名为:>");\
-    scanf("%d",&new_link->num);\
-    if(head_link == NULL)\
+    size_t i;\
+    type*head_link = NULL;\
+    type*end_link;\
+    for(i=0;i<num;i++)\
     {\
-        head_link = new_link;\
+        type*new_link = (type*)malloc(sizeof(type));\
+        printf("你想将序号为%ld的节点命名为:>",i+1);\
+        scanf("%d",&new_link->conum);\
+        if(head_link == NULL)\
+        {\
+            head_link = new_link;\
+        }\
+        else\
+        {\
+            end_link->bwd = new_link;\
+            new_link->fwd = end_link;\
+        }\
+        if(i == a-1)\
+        {\
+            head_link->fwd = new_link;\
+            new_link->bwd = head_link;\
+        }\
+        end_link = new_link;\
     }\
-    else\
-    {\
-        end_link->next = new_link;\
-    }\
-    end_link = new_link;\
-}\
-(head_link);\
+    (head_link);\
 })\
 
 int main()
 {
-    size_t a;
+    size_t a,i;
     Node*L;
-    printf("你想要生成单链表的个数:>\n");
+    printf("你想创建的双链表个数为:>\n");
     scanf("%ld",&a);
-    L = BUILDSINGLELINK(a,Node);
-    while(L!=NULL)
+    L = BUILDDOUBLELINK(Node,a,bwd1,fwd2,num3);
+    for(i=0;i<a;i++)
     {
-        printf("%d ",L->num);
-        L=L->next;
+        L = L->fwd2;
+        printf("%d ",L->num3);
     }
-    free(L);
     return 0;
 }
+//单链表(宏的创建)
+// #include<stdlib.h>
+// #include<stdio.h>
+// typedef struct NODE
+// {
+//     struct NODE*next1;
+//     int num2;
+// }Node;
+// typedef struct MODE
+// {
+//     struct MODE*next;
+//     int num;
+// }Mode;
+// #define BUILDSINGLELINK(type,X,next,num)\
+// ({\
+// size_t b,i;\
+// type*head_link = NULL;\
+// type*end_link;\
+// for(i=0;i<X;i++)\
+// {\
+//     type*new_link = (type*)malloc(sizeof(type));\
+//     new_link->next = NULL;\
+//     printf("你想将此节点命名为:>");\
+//     scanf("%d",&new_link->num);\
+//     if(head_link == NULL)\
+//     {\
+//         head_link = new_link;\
+//     }\
+//     else\
+//     {\
+//         end_link->next = new_link;\
+//     }\
+//     end_link = new_link;\
+// }\
+// (head_link);\
+// })\
+
+// int main()
+// {
+//     size_t a;
+//     Node*L;
+//     Mode*M;
+//     printf("你想要生成单链表的个数:>\n");
+//     scanf("%ld",&a);
+//     L = BUILDSINGLELINK(Node,a,next1,num2);
+//     M = BUILDSINGLELINK(Mode,a,next,num);
+//     while(L!=NULL)
+//     {
+//         printf("%d ",L->num2);
+//         L=L->next1;
+//     }
+//     while(M!=NULL)
+//     {
+//         printf("%d ",M->num);
+//         M=M->next;
+//     }
+//     free(L);
+//     free(M);
+//     return 0;
+// }
 // 双链表(函数法的创建)
 // #include<stdlib.h>
 // #include<stdio.h>
