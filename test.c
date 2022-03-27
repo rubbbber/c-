@@ -388,10 +388,49 @@ int main()
 // int main()
 // {
 //     S*ps = (S*)malloc(sizeof(S)+3*sizeof(int));   
-
 //     return 0;
 // }
-//qsort的再实现（插入排序）双指针
+//一个数组的最小数
+// #include<stdio.h>
+// long long abs1(long long i)
+// {
+//     if(i<0)
+//     {
+//         return -1*i;
+//     }
+//     return i;
+// }
+// int main()
+// {
+//     long long b,x=1, y=2,z,c=0;
+//     char ch;
+//     int i=0;
+//     long long a[10000] = {0};
+//     scanf("%lld", &b);
+//     while(ch != '\n')
+//     {
+//         scanf("%lld", &a[i]);
+//         ch = getchar();
+//         c++;
+//         i++;
+//     }
+//     z = abs1(a[0] - a[1]);
+//     for (i = 0;i < c - 1;i++)
+//     {
+//         int j;
+//         for (j = i + 1;j < c;j++)
+//         {
+//             if (abs1(a[i] - a[j]) < z)
+//             {
+//                 z = abs1(a[i] - a[j]);
+//                 x = i + 1;
+//                 y = j + 1;
+//             }
+//         }
+//     }
+//     printf("%lld %lld %lld", z, x, y);
+// }
+//qsort的再实现（插入排序）
 // #include<stdio.h>
 // #include<string.h>
 // typedef struct
