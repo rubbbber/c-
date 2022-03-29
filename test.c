@@ -122,12 +122,54 @@
 #include<stdlib.h>
 //#define __SELFCREAT__
 //#define __ELSE__
-#define __REVERSE__
+//#define __REVERSE__
+#define __REMOVE__
 typedef struct NODE
 {
     int num;
     struct NODE *next;
 }Node;
+Node*search(Node*L,int a)
+{
+    a--;
+    while(a--&&(L = L->next)!=NULL)
+    {
+        ;
+    }
+    return L;
+}
+int sll_remove(Node**rootp,Node*node)
+{         
+    Node*this;
+    int flag = 1;     
+    if(node == NULL)
+    {
+        return 0;
+    }
+    for(this=*rootp;;this=this->next)
+    {
+        if(flag == 1)
+        {
+            flag = 0;
+            if (this == node)
+            {
+                *rootp = this->next;
+                this->next = NULL;
+                free(this);
+                return 1;
+            }
+            rootp = &this->next;
+        }
+        rootp = &((*rootp)->next);
+        if(this->next == node)
+        {
+            this->next = *rootp;
+            node->next = NULL;
+            free(node);
+            return 1;
+        }
+    }
+}
 Node* sll_reverse(Node*L)
 {
     int flag = 1;
@@ -232,33 +274,43 @@ Node* buildSingleLink(int a)
 int main()
 {
     size_t a;
-    int b,c;
-    Node*P;
-    #ifndef __SELFCREAT__
+    int b,c,d;
+    Node*P,*Q;
+#ifndef __SELFCREAT__
     a = 4;
-    #endif
-    #ifdef __SELFCREAT__
+#endif
+#ifdef __SELFCREAT__
     printf("你想要生成单链表的个数:>\n");
     scanf("%ld",&a);
-    #endif
+#endif
     Node* L = buildSingleLink(a);
-    #ifdef __ELSE__
+#ifdef __ELSE__
     b = sll_insert(&L,5);
     c = count1(L);
     P = count2(L,4);
-    #endif
-    #ifdef __REVERSE__
+#endif
+#ifdef __REVERSE__
     L = sll_reverse(L);
-    #endif
+#endif
+#ifdef __REMOVE__
+    printf("你要删除节点的序号是:>");
+    scanf("%d",&d);
+    Q = search(L,d);
+    d = sll_remove(&L,Q);
+    if(d == 0)
+    {
+        printf("删除失败\n");
+    }
+#endif
     while(L!=NULL)
     {
         printf("%d ",L->num);
         L=L->next;
     }
-    #ifdef __ELSE__
+#ifdef __ELSE__
     printf("\ncount1 = %d\n",c);
     printf("count2 = %d\n",P->num);
-    #endif
+#endif
     free(L);
     return 0;
 }
