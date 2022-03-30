@@ -1,319 +1,409 @@
 // 双链表(函数法的创建)&&插入函数的模拟实现
-// #include<stdlib.h>
-// #include<stdio.h>
-// typedef struct NODE
-// {
-//     struct NODE*fwd;
-//     struct NODE*bwd;
-//     int num;
-// }Node;
-// Node*Last(Node**rootpp)
-// {
-//     Node*next;
-//     for(next=*rootpp;;*rootpp = next)
-//     {
-//         next=(*rootpp)->fwd;
-//         if(next->num<(*rootpp)->num)
-//         {
-//             break;
-//         }
-//     }
-//     return *rootpp;
-// }
-// Node*dll_insert(Node*rootp,int new_value)
-// {
-//     Node*new;
-//     Node*this;
-//     Node*next;
-//     for(this=rootp;;this=next)
-//     {
-//         next=this->fwd;
-//         if(this->num>next->num)
-//         {
-//             break;
-//         }
-//         if(new_value==next->num)//如果换成new_value==this->num的话会多走一步
-//         {
-//             return rootp;
-//         }
-//         if(new_value<next->num)
-//         {
-//             break;
-//         }
-//     }
-//     new = (Node*)malloc(sizeof(Node));
-//     if(new == NULL)
-//     {
-//         return NULL;
-//     }
-//     new->num = new_value;
-//     if(this == rootp)
-//     {
-//         new->fwd = this;
-//         new->bwd = Last(&rootp);
-//         this->bwd = new;
-//         rootp = new;
-//     }
-//     else
-//     {
-//         new->fwd = next;
-//         this->fwd = new;
-//         new->bwd = this;
-//         if(next == NULL)
-//         {
-//             rootp->bwd = new;
-//         }
-//         else
-//         {
-//             next->bwd = new;
-//         }
-//     }
-//     return rootp;
-// }
-// Node*buildDoubleLink(size_t a)
-// {
-//     size_t i;
-//     Node*head_link = NULL;
-//     Node*end_link;
-//     for(i=0;i<a;i++)
-//     {
-//         Node*new_link = (Node*)malloc(sizeof(Node));
-//         printf("你想将序号为%ld的节点命名为:>",i+1);
-//         scanf("%d",&new_link->num);
-//         new_link->fwd = NULL;
-//         if(head_link==NULL)
-//         {
-//             head_link = new_link;
-//         }
-//         else
-//         {
-//             end_link->fwd = new_link;
-//             new_link->bwd = end_link;
-//         }
-//         end_link = new_link;
-//         if(i == a-1)
-//         {
-//             head_link->bwd = end_link;
-//             end_link->fwd = head_link;
-//         }
-//     }
-//     return head_link;
-// }
-// int main()
-// {
-//     size_t a,i;
-//     Node*L;
-//     printf("输入你想创建的双链表数:>");
-//     scanf("%ld",&a);
-//     L = buildDoubleLink(a);
-//     L = dll_insert(L,5);
-//     for(i=0;i<a+1;i++)
-//     {
-//         //L = L->bwd;
-//         printf("%d ",L->num);
-//         L = L->fwd;
-//     }
-//     //printf("%ld",sizeof(L));
-//     free(L);
-//     return 0;
-// }
-//单链表(函数法的创建)&&插入函数的模拟实现
-#include<stdio.h>
 #include<stdlib.h>
-//#define __SELFCREAT__
-//#define __ELSE__
-//#define __REVERSE__
-#define __REMOVE__
+#include<stdio.h>
+//#define __SELFCREATE__
+#define __BWD__
 typedef struct NODE
 {
+    struct NODE*fwd;
+    struct NODE*bwd;
     int num;
-    struct NODE *next;
 }Node;
-Node*search(Node*L,int a)
+Node*Last(Node*rootp)
 {
-    a--;
-    while(a--&&(L = L->next)!=NULL)
+    Node*next;
+    for(next=rootp;;rootp=next)
     {
-        ;
+        next = rootp->fwd;
+        if(next->num<rootp->num)
+        {
+            return rootp;
+        }
     }
-    return L;
 }
-int sll_remove(Node**rootp,Node*node)
-{         
+void Free(Node*L)
+{
+    Node*next;
+    for(next=L;;L=next)
+    {
+        next = L->fwd;
+        if((L->num)>(next->num))
+        {
+            break;
+        }
+        free(L);
+    }
+    free(L);
+}
+int dll_remove(Node**rootp,Node*node)
+{
     Node*this;
-    int flag = 1;     
-    if(node == NULL)
+    Node*first = *rootp;
+    Node*last = Last(*rootp);
+    last->fwd = NULL;
+    int flag = 1;
+    if (node == NULL)
     {
         return 0;
     }
-    for(this=*rootp;;this=this->next)
+    for(this=*rootp;;this=this->fwd)
     {
-        if(flag == 1)
+        if (flag == 1)
         {
             flag = 0;
-            if (this == node)
+            if(*rootp == node)
             {
-                *rootp = this->next;
-                this->next = NULL;
+                *rootp = this->fwd;
+                (*rootp)->bwd = last;
+                last->fwd = *rootp;
                 free(this);
                 return 1;
             }
-            rootp = &this->next;
-        }
-        rootp = &((*rootp)->next);
-        if(this->next == node)
+            rootp = &this->fwd;
+        } 
+        if((rootp = &(*rootp)->fwd) == NULL)
         {
-            this->next = *rootp;
-            node->next = NULL;
+            free(this->fwd);
+            first->bwd = this;
+            this->fwd = first;
+            return 1;
+        }
+        if(this->fwd == node)
+        {
+            last->fwd = first;
+            this->fwd = *rootp;
+            (*rootp)->bwd = this;
             free(node);
             return 1;
         }
     }
 }
-Node* sll_reverse(Node*L)
+Node*getnode(Node*L,int a)
 {
-    int flag = 1;
-    Node*this;
-    Node*nextlink;
-    this=L;
-    L = L->next;
-    for(nextlink=L;(nextlink=nextlink->next)!=NULL;L=nextlink)
+    a--;
+    while(a--)
     {
-        if(flag==1)
-        {
-            this->next = NULL;
-            flag = 0;
-        }
-        L->next = this;
-        this = L;
+        L = L->fwd;
     }
-    L->next = this;
     return L;
 }
-Node* count2(Node*L,int a)
+Node*dll_insert(Node*rootp,int new_value)
 {
-    Node*current = L;
-    if(L == NULL)
+    Node*new;
+    Node*this;
+    Node*next;
+    for(this=rootp;;this=next)
     {
-        return NULL;
-    }
-    do
-    {
-        if(current->num == a)
+        next=this->fwd;
+        if(this->num>next->num)
         {
-            return current;
+            break;
         }
-    }while((current = current->next)!=NULL);
-    return NULL;
-}
-int count1(Node*L)
-{
-    int a = 1;
-    Node*current = L;
-    if(current==NULL)
-    {
-        return 0;
-    }
-    while((current = current->next) != NULL)
-    {
-        a++;
-    }
-    return a;
-}
-int sll_insert(register Node**rootp,int new_value)
-{
-    register Node*new;
-    register Node*current;
-    while((current = *rootp)!=NULL&&
-    current->num<new_value)
-    {
-        rootp = &current->next;
+        if(new_value==next->num)//如果换成new_value==this->num的话会多走一步
+        {
+            return rootp;
+        }
+        if(new_value<next->num)
+        {
+            break;
+        }
     }
     new = (Node*)malloc(sizeof(Node));
     if(new == NULL)
     {
-        return 0;
+        return NULL;
+    }
+    new->num = new_value;
+    if(this == rootp)
+    {
+        new->fwd = this;
+        new->bwd = Last(rootp);
+        this->bwd = new;
+        rootp = new;
     }
     else
     {
-        new->num = new_value;
-        //插入新节点并返回1
-        new->next = current;
-        *rootp = new;
-        return 1;
+        new->fwd = next;
+        this->fwd = new;
+        new->bwd = this;
+        if(next == NULL)
+        {
+            rootp->bwd = new;
+        }
+        else
+        {
+            next->bwd = new;
+        }
     }
+    return rootp;
 }
-Node* buildSingleLink(int a)
+Node*buildDoubleLink(size_t a)
 {
-    size_t i = 0;
+    size_t i;
     Node*head_link = NULL;
     Node*end_link;
     for(i=0;i<a;i++)
     {
         Node*new_link = (Node*)malloc(sizeof(Node));
-        #ifdef __SELFCREAT__
-        printf("输入%ld节点的名称为:>",i+1);
+        new_link->num = 2*i+2;
+        #ifdef __SELFCREATE__
+        printf("你想将序号为%ld的节点命名为:>",i+1);
         scanf("%d",&new_link->num);
         #endif
-        #ifndef __SELFCREAT__
-        new_link->num = i*2+2;
-        #endif
-        new_link->next = NULL;
-        if(head_link == NULL)
+        new_link->fwd = NULL;
+        if(head_link==NULL)
         {
             head_link = new_link;
         }
         else
         {
-            end_link->next = new_link;
+            end_link->fwd = new_link;
+            new_link->bwd = end_link;
         }
         end_link = new_link;
+        if(i == a-1)
+        {
+            head_link->bwd = end_link;
+            end_link->fwd = head_link;
+        }
     }
     return head_link;
 }
 int main()
 {
-    size_t a;
-    int b,c,d;
-    Node*P,*Q;
-#ifndef __SELFCREAT__
-    a = 4;
-#endif
-#ifdef __SELFCREAT__
-    printf("你想要生成单链表的个数:>\n");
+    size_t a,i,b,c;
+    Node*L,*P;
+    a = 5;
+#ifdef __SELFCREATE__
+    printf("输入你想创建的双链表数:>");
     scanf("%ld",&a);
 #endif
-    Node* L = buildSingleLink(a);
-#ifdef __ELSE__
-    b = sll_insert(&L,5);
-    c = count1(L);
-    P = count2(L,4);
-#endif
-#ifdef __REVERSE__
-    L = sll_reverse(L);
-#endif
-#ifdef __REMOVE__
-    printf("你要删除节点的序号是:>");
-    scanf("%d",&d);
-    Q = search(L,d);
-    d = sll_remove(&L,Q);
-    if(d == 0)
+    L = buildDoubleLink(a);
+    //L = dll_insert(L,5);
+    printf("你想删除节点的序号为:>");
+    scanf("%ld",&b);
+    P = getnode(L,b);
+    c = dll_remove(&L,P);
+    for(i=0;i<a+1;i++)
     {
-        printf("删除失败\n");
-    }
-#endif
-    while(L!=NULL)
-    {
+        #ifdef __BWD__
+        L = L->bwd;
+        #endif
         printf("%d ",L->num);
-        L=L->next;
+        #ifndef __BWD__
+        L = L->fwd;
+        #endif
     }
-#ifdef __ELSE__
-    printf("\ncount1 = %d\n",c);
-    printf("count2 = %d\n",P->num);
-#endif
-    free(L);
+    //printf("%ld",sizeof(L));
+    //Free(L);
     return 0;
 }
+//单链表(函数法的创建)&&插入函数的模拟实现
+// #include<stdio.h>
+// #include<stdlib.h>
+// //#define __SELFCREATE__
+// //#define __ELSE__
+// //#define __REVERSE__
+// #define __REMOVE__
+// typedef struct NODE
+// {
+//     int num;
+//     struct NODE *next;
+// }Node;
+// void Free(Node*L)
+// {
+//     Node*net;
+//     for(net=L;(next = L->next)!=NULL;L=net)
+//     {
+//         free(L);
+//     }
+//     free(net);
+// }
+// Node*search(Node*L,int a)
+// {
+//     a--;
+//     while(a--&&(L = L->next)!=NULL)
+//     {
+//         ;
+//     }
+//     return L;
+// }
+// int sll_remove(Node**rootp,Node*node)
+// {         
+//     Node*this;
+//     int flag = 1;     
+//     if(node == NULL)
+//     {
+//         return 0;
+//     }
+//     for(this=*rootp;;this=this->next)
+//     {
+//         if(flag == 1)
+//         {
+//             flag = 0;
+//             if (this == node)
+//             {
+//                 *rootp = this->next;
+//                 this->next = NULL;
+//                 free(this);
+//                 return 1;
+//             }
+//             rootp = &this->next;
+//         }
+//         rootp = &((*rootp)->next);
+//         if(this->next == node)
+//         {
+//             this->next = *rootp;
+//             node->next = NULL;
+//             free(node);
+//             return 1;
+//         }
+//     }
+// }
+// Node* sll_reverse(Node*L)
+// {
+//     int flag = 1;
+//     Node*this;
+//     Node*nextlink;
+//     this=L;
+//     L = L->next;
+//     for(nextlink=L;(nextlink=nextlink->next)!=NULL;L=nextlink)
+//     {
+//         if(flag==1)
+//         {
+//             this->next = NULL;
+//             flag = 0;
+//         }
+//         L->next = this;
+//         this = L;
+//     }
+//     L->next = this;
+//     return L;
+// }
+// Node* count2(Node*L,int a)
+// {
+//     Node*current = L;
+//     if(L == NULL)
+//     {
+//         return NULL;
+//     }
+//     do
+//     {
+//         if(current->num == a)
+//         {
+//             return current;
+//         }
+//     }while((current = current->next)!=NULL);
+//     return NULL;
+// }
+// int count1(Node*L)
+// {
+//     int a = 1;
+//     Node*current = L;
+//     if(current==NULL)
+//     {
+//         return 0;
+//     }
+//     while((current = current->next) != NULL)
+//     {
+//         a++;
+//     }
+//     return a;
+// }
+// int sll_insert(register Node**rootp,int new_value)
+// {
+//     register Node*new;
+//     register Node*current;
+//     while((current = *rootp)!=NULL&&
+//     current->num<new_value)
+//     {
+//         rootp = &current->next;
+//     }
+//     new = (Node*)malloc(sizeof(Node));
+//     if(new == NULL)
+//     {
+//         return 0;
+//     }
+//     else
+//     {
+//         new->num = new_value;
+//         //插入新节点并返回1
+//         new->next = current;
+//         *rootp = new;
+//         return 1;
+//     }
+// }
+// Node* buildSingleLink(int a)
+// {
+//     size_t i = 0;
+//     Node*head_link = NULL;
+//     Node*end_link;
+//     for(i=0;i<a;i++)
+//     {
+//         Node*new_link = (Node*)malloc(sizeof(Node));
+//         #ifdef __SELFCREAT__
+//         printf("输入%ld节点的名称为:>",i+1);
+//         scanf("%d",&new_link->num);
+//         #endif
+//         #ifndef __SELFCREAT__
+//         new_link->num = i*2+2;
+//         #endif
+//         new_link->next = NULL;
+//         if(head_link == NULL)
+//         {
+//             head_link = new_link;
+//         }
+//         else
+//         {
+//             end_link->next = new_link;
+//         }
+//         end_link = new_link;
+//     }
+//     return head_link;
+// }
+// int main()
+// {
+//     size_t a;
+//     int b,c,d;
+//     Node*P,*Q;
+// #ifndef __SELFCREAT__
+//     a = 4;
+// #endif
+// #ifdef __SELFCREAT__
+//     printf("你想要生成单链表的个数:>\n");
+//     scanf("%ld",&a);
+// #endif
+//     Node* L = buildSingleLink(a);
+// #ifdef __ELSE__
+//     b = sll_insert(&L,5);
+//     c = count1(L);
+//     P = count2(L,4);
+// #endif
+// #ifdef __REVERSE__
+//     L = sll_reverse(L);
+// #endif
+// #ifdef __REMOVE__
+//     printf("你要删除节点的序号是:>");
+//     scanf("%d",&d);
+//     Q = search(L,d);
+//     d = sll_remove(&L,Q);
+//     if(d == 0)
+//     {
+//         printf("删除失败\n");
+//     }
+// #endif
+//     while(L!=NULL)
+//     {
+//         printf("%d ",L->num);
+//         L=L->next;
+//     }
+// #ifdef __ELSE__
+//     printf("\ncount1 = %d\n",c);
+//     printf("count2 = %d\n",P->num);
+// #endif
+//     Free(L);
+//     return 0;
+// }
 //双链表(宏的创建)
 // #include<stdio.h>
 // #include<stdlib.h>
