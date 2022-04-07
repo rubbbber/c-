@@ -1,166 +1,261 @@
-//搭积木
+//排队
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
-typedef struct WHERE
+#include<assert.h>
+typedef struct Peo
 {
+    char name[10];
     int row;
-    int col;
-}W;
-void initarr(char arr[25][25],int n)
+    int caseNum;
+}P;
+typedef struct Con
 {
-    int i;
-    for(i=0;i<n;i++)
-    {
-        arr[i][0] = i + '0';
-    }
-}
-void getadd(char a,char ac[25][25],W*x,int n)
+    int capacity;
+    int top;
+    P p[];
+}C;
+void print(C*ps,int l)
 {
-    int i,j;
-    for(i=0;i<n;i++)
-    {
-        j = 0;
-        while (ac[i][j] != 0)
-        {
-            if(ac[i][j] == a)
-            {
-                x->row = i;
-                x->col = j;
-                return;
-            }
-            j++;
-        }
-    }
-}
-void print(char arr[25][25],int n)
-{
-    int i,j;
-    for(i=0;i<n;i++)
-    {
-        printf("%d: ",i);
-        j = 0;
-        while (arr[i][j] != 0)
-        {
-            printf("%c ",arr[i][j]);
-            j++;
-        }
-        printf("\n");
-    }
-}
-int top(char arr[25][25],int row,int col)
-{
-    int i =1;
-    while(arr[row][col+i] != 0)
-    {
-        i++;
-    }
-    return col+i;
-}
-void recovery(char arr[25][25],int row,int col)
-{
-    int i = 1;
-    while(arr[row][col+i] != 0)
-    {
-        if(arr[arr[row][col+i]-'0'][0] != 0)
-        {
-            recovery(arr,arr[row][col+i]-'0',0);
-        }
-        arr[arr[row][col+i]-'0'][0] = arr[row][col+i];
-        arr[row][col+i] = 0;
-        i++;
-    }
+
 }
 int main()
 {
-    int n,l,i;W A;W B;
-    W*w1 = &A;
-    W*w2 = &B;
-    char arr[25][25] = {0};
-    char*fwd,*bwd,*ch1,*ch2;char con[20];
-    char a,b,tmp;
-    char(*pa)[25] = arr;
-    scanf("%d\n",&n);
-    initarr(arr,n);
-    while(1)
+    int n,i,j,k,l=0;char arr[2][30] = {0};
+    C*ps = (C*)malloc(sizeof(C)+2*sizeof(P));
+    assert(ps);
+    ps->capacity = 3;
+    ps->top = 0;
+    do
     {
-        ch1 = NULL;
-        ch2 = NULL;
-        fgets(con,20,stdin);
-        fwd = strtok(con," ");
-        if(strcmp(fwd,"q\n")==0)
+        l++;
+        scanf("%d",&n);
+        for(i=1;i<=n;i++)
         {
-            break;
-        }
-        ch1 = strtok(NULL," ");
-        bwd = strtok(NULL," ");
-        ch2 = strtok(NULL," \n");
-        a = ch1[0];
-        b = ch2[0];
-        getadd(a,arr,w1,n);
-        getadd(b,arr,w2,n);
-        if (a == b||w1->row == w2->row)
-        {
-            continue;
-        }
-        if(strcmp(fwd,"mv")==0)
-        {
-            if(strcmp(bwd,"on")==0)
+            scanf("%d",&k);
+            for(j=0;j<k;j++)
             {
-                recovery(arr,w1->row,w1->col);
-                recovery(arr,w2->row,w2->col);
-                getadd(a,arr,w1,n);
-                getadd(b,arr,w2,n);
-                arr[w2->row][w2->col+1] = arr[w1->row][w1->col];
-                arr[w1->row][w1->col] = 0;
-            }
-            else if(strcmp(bwd,"ov")==0)
-            {
-                recovery(arr,w1->row,w1->col);
-                getadd(a,arr,w1,n);
-                l = top(arr,w2->row,w2->col);
-                arr[w2->row][l] = arr[w1->row][w1->col];
-                arr[w1->row][w1->col] = 0;
-            }
-        }
-        else if(strcmp(fwd,"st")==0)
-        {
-            if(strcmp(bwd,"on")==0)
-            {
-                recovery(arr,w2->row,w2->col);
-                getadd(b,arr,w2,n);
-                l = top(arr,w1->row,w1->col);
-                for(i=0;i<l-w1->col;i++)
+                if(ps->top == ps->capacity)
                 {
-                    arr[w2->row][w2->col+i+1] = arr[w1->row][w1->col+i];
-                    arr[w1->row][w1->col+i] = 0;
+                    C*ptr = (C*)realloc(ps,8+(ps->capacity+1)*sizeof(P));
+                    if(ptr != NULL)
+                    {
+                        ps = ptr;
+                        ps->capacity++;
+                    }
                 }
-            }
-            else if(strcmp(bwd,"ov")==0)
-            {
-                i = 0;
-                l = top(arr,w2->row,w2->col);
-                while(arr[w1->row][w1->col+i]!=0)
-                {
-                    arr[w2->row][l+i] = arr[w1->row][w1->col+i];
-                    arr[w1->row][w1->col+i] = 0;
-                    i++;
-                }
+                scanf("%s",ps->p[ps->top].name);
+                ps->p[ps->top].row = i;
+                ps->top++;
+                ps->p[ps->top].caseNum = l;
             }
         }
-        else if(strcmp(fwd,"xh")==0)
+        while (n !=0)
         {
-            i = 0;
-            while (arr[w1->row][i] != 0||arr[w2->row][i] != 0)
+            scanf("%s",arr[0]);
+            if(strcmp(arr[0],"enqueue")==0)
             {
-                tmp = arr[w1->row][i];
-                arr[w1->row][i] = arr[w2->row][i];
-                arr[w2->row][i] = tmp;
-                i++;
+                scanf("%s",arr[1]);
+            }
+            else if(strcmp(arr[0],"dequeue")==0)
+            {
+                
+            }
+            else if(strcmp(arr[0],"deqteam")==0)
+            {
+                scanf("%s",arr[1]);
+            }
+            else if(strcmp(arr[0],"stop")==0)
+            {
+                break;
             }
         }
-    }
-    print(arr,n);
-}                                               
+    } while (n != 0);
+    print(ps,l);
+    free(ps);
+    ps = NULL;
+}
+//搭积木
+//有编号0-（N-1）的若干个积木块从小到大的顺序排成一行，每个积木块所在位置为其对应编号。
+//一个机器人可以操作这些积木块，机器人可以执行如下指令：
+//*mv a on b
+//将a和b所在列a，b之上所有积木恢复到最初其所在的位置上，然后将积木a搁置在积木块b之上。
+//*mv a ov b
+//将积木块a之上所有积木块恢复到最初其所在位置上，然后将积木块a放置在积木块b所在列的顶端。
+//*st a on b
+//将积木块b之上所有积木块恢复到z最初其位置上，然后将积木块a及其上的所有积木放置在积木块b之上。
+//*st a ov b
+//将积木块a及其上的所有积木放置在积木块b所在列的顶端。
+//xh a an b
+//交换a和b所在的列
+//*q
+//退出
+// #include<stdio.h>
+// #include<string.h>
+// #include<assert.h>
+// typedef struct WHERE
+// {
+//     int row;
+//     int col;
+// }W;
+// void initarr(char arr[25][25],int n)
+// {
+//     int i;
+//     for(i=0;i<n;i++)
+//     {
+//         arr[i][0] = i + '0';
+//     }
+// }
+// void getadd(char a,char ac[25][25],W*x,int n)
+// {
+//     int i,j;
+//     for(i=0;i<n;i++)
+//     {
+//         j = 0;
+//         while (ac[i][j] != 0)
+//         {
+//             if(ac[i][j] == a)
+//             {
+//                 x->row = i;
+//                 x->col = j;
+//                 return;
+//             }
+//             j++;
+//         }
+//     }
+// }
+// void print(char arr[25][25],int n)
+// {
+//     int i,j;
+//     for(i=0;i<n;i++)
+//     {
+//         printf("%d:",i);
+//         j = 0;
+//         while (arr[i][j] != 0)
+//         {
+//             printf(" %c",arr[i][j]);
+//             j++;
+//         }
+//         printf("\n");
+//     }
+// }
+// int top(char arr[25][25],int row,int col)
+// {
+//     int i =1;
+//     while(arr[row][col+i] != 0)
+//     {
+//         i++;
+//     }
+//     return col+i;
+// }
+// void recovery(char arr[25][25],int row,int col)
+// {
+//     int i = 1;
+//     while(arr[row][col+i] != 0)
+//     {
+//         if(arr[arr[row][col+i]-'0'][0] != 0)
+//         {
+//             recovery(arr,arr[row][col+i]-'0',0);
+//         }
+//         arr[arr[row][col+i]-'0'][0] = arr[row][col+i];
+//         arr[row][col+i] = 0;
+//         i++;
+//     }
+// }
+// int main()
+// {
+//     int n,l,i;W A;W B;
+//     W*w1 = &A;
+//     W*w2 = &B;//也可以用malloc这样可以不写W A，W B直接创建指针malloc
+//     char arr[25][25] = {0};
+//     char*fwd,*bwd,*ch1,*ch2;char con[20];
+//     char a,b,tmp;
+//     char(*pa)[25] = arr;
+//     scanf("%d\n",&n);
+//     initarr(arr,n);
+//     while(1)
+//     {
+//         ch1 = NULL;
+//         ch2 = NULL;
+//         fgets(con,20,stdin);
+//         fwd = strtok(con," ");
+//         if(strcmp(fwd,"q\n")==0)
+//         {
+//             break;
+//         }
+//         ch1 = strtok(NULL," ");
+//         bwd = strtok(NULL," ");
+//         ch2 = strtok(NULL," \n");
+//         assert(ch1);
+//         assert(ch2);
+//         a = ch1[0];
+//         b = ch2[0];
+//         getadd(a,arr,w1,n);
+//         getadd(b,arr,w2,n);
+//         if (a == b||w1->row == w2->row)
+//         {
+//             continue;
+//         }
+//         if(strcmp(fwd,"mv")==0)
+//         {
+//             if(strcmp(bwd,"on")==0)
+//             {
+//                 recovery(arr,w1->row,w1->col);//递归有可能发生摧毁积木后
+//                 recovery(arr,w2->row,w2->col);//的某个积木归位时位置被占用的情况
+//                 getadd(a,arr,w1,n);
+//                 getadd(b,arr,w2,n);
+//                 arr[w2->row][w2->col+1] = arr[w1->row][w1->col];
+//                 arr[w1->row][w1->col] = 0;
+//             }
+//             else if(strcmp(bwd,"ov")==0)
+//             {
+//                 recovery(arr,w1->row,w1->col);
+//                 getadd(a,arr,w1,n);
+//                 l = top(arr,w2->row,w2->col);
+//                 arr[w2->row][l] = arr[w1->row][w1->col];
+//                 arr[w1->row][w1->col] = 0;
+//             }
+//         }
+//         else if(strcmp(fwd,"st")==0)
+//         {
+//             if(strcmp(bwd,"on")==0)
+//             {
+//                 recovery(arr,w2->row,w2->col);
+//                 getadd(b,arr,w2,n);
+//                 l = top(arr,w1->row,w1->col);
+//                 for(i=0;i<l-w1->col;i++)
+//                 {
+//                     arr[w2->row][w2->col+i+1] = arr[w1->row][w1->col+i];
+//                     arr[w1->row][w1->col+i] = 0;
+//                 }
+//             }
+//             else if(strcmp(bwd,"ov")==0)
+//             {
+//                 i = 0;
+//                 l = top(arr,w2->row,w2->col);
+//                 while(arr[w1->row][w1->col+i]!=0)
+//                 {
+//                     arr[w2->row][l+i] = arr[w1->row][w1->col+i];
+//                     arr[w1->row][w1->col+i] = 0;
+//                     i++;
+//                 }
+//             }
+//         }
+//         else if(strcmp(fwd,"xh")==0)
+//         {
+//             i = 0;
+//             while (arr[w1->row][i] != 0||arr[w2->row][i] != 0)
+//             {
+//                 tmp = arr[w1->row][i];
+//                 arr[w1->row][i] = arr[w2->row][i];//交换不能用指针毕竟为顺序表
+//                 arr[w2->row][i] = tmp;
+//                 i++;
+//             }
+//         }
+//     }
+//     print(arr,n);
+// }      
+//酒酒花数                                         
 //如果一个整数的各位（个十百千）数之和为某个前缀则其称为酒酒花数
 //如199就为酒酒花数因为1+9+9=19为199的前两位，198则不是酒酒花数因为1+9+8=18不为任何数的前缀
 //求n位数的酒酒花数有多少个（1<=n<=100）
@@ -226,7 +321,8 @@ int main()
 //     ssum += sum;
 //     printf("%lld\n",ssum);
 // }     
-//序列(找规律法)质因数仅为2，3，5的数组成一个序列1，2，3，4，5，6，8，9.....
+//序列(找规律法)
+//质因数仅为2，3，5的数组成一个序列1，2，3，4，5，6，8，9.....
 //输入一个数n（1<=n<=10000)求其对应数列位次对应的值为多少
 // #include<stdio.h>
 // #include<stdlib.h>
