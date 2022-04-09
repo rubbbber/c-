@@ -28,9 +28,30 @@ typedef struct Con
 }C;
 static int flag = 1;
 static PL*root;
-void adjust(PL**current,char arr[10],C*ps)
+void adjust(PL*current,char arr[10])
 {
-    
+    PL*next1,*next2,*first;
+    for(next1=current;current!=NULL;current=next1)
+    {
+        first = current;
+        next1=next1->fwd;
+        if(strcmp(current->name,arr)==0)
+        {
+            first->row = -1;
+            return;
+        }
+        if(current->bwd!=NULL)
+        {
+            for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
+            {
+                if(strcmp(next2->name,arr)==0)
+                {
+                    first->row = -1;
+                    return;
+                }
+            }
+        }
+    }
 }
 void modifynum(PL*current,C*ps)
 {
@@ -38,6 +59,10 @@ void modifynum(PL*current,C*ps)
     for(next1=current;current!=NULL;current=next1)
     {
         next1=next1->fwd;
+        if(current->row==-1)
+        {
+            continue;
+        }
         if(current->num == 0)
         {
             current->num = 1;
@@ -59,7 +84,7 @@ void modifynum(PL*current,C*ps)
 }
 PL* creatPl(PL**rootp,char arr[30],C*ps)
 {
-    int i;PL*current = *rootp;PL*next;
+    int i;PL*current = *rootp;PL*next1,*next2;
     for(i=0;i<ps->top;i++)
     {
         if(strcmp(ps->p[i].name,arr)==0)
@@ -87,18 +112,18 @@ PL* creatPl(PL**rootp,char arr[30],C*ps)
     }
     if(new->caseNum!=(*rootp)->caseNum)
     {
-        for(next=current;(next=next->fwd)!=NULL;current=next)
+        for(next1=current;(next1=next1->fwd)!=NULL;current=next1)
         {
             ;
         }
         current->fwd = new;
         return new;
     }
-    for(next=current;(next=next->fwd)!=NULL;current=next)
+    for(next1=current;(next1=next1->fwd)!=NULL;current=next1)
     {
         if(current->row == new->row)
         {
-            for(next=current;(next=next->bwd)!=NULL;current=next)
+            for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
             {
                 ;
             }
@@ -109,8 +134,43 @@ PL* creatPl(PL**rootp,char arr[30],C*ps)
     current->fwd = new;
     return NULL;
 }
-void print(C*ps,int l)
+void printFree(int a)
 {
+    printf("Case #%d\n",a+1);
+    PL*next1,*next2;
+    for(next1=root;(next1=next1->fwd)!=NULL||(next1->caseNum)!=(root->caseNum);root=next1)
+    {
+        if(root->num == 1&&root->row!=-1)
+        {
+            printf("%s",root->name);
+            if(root->bwd!=NULL)
+            {
+                for(next2=root;(next2=next2->bwd)!=NULL;root=next2)
+                {
+                    if(root->fwd==NULL)
+                    {
+                        //free(root);
+                    }
+                    if(next2->num==1)
+                    {
+                        printf(" %s",next2->name);
+                    }
+                }
+                //free(root);
+                printf("\n");
+            }
+            else
+            {
+                printf("\n");
+            }
+        }
+        //free(root);
+    }
+   if(next1!=NULL)
+   {
+       free(root);
+       root = next1;
+   }
 }
 int main()
 {
@@ -140,8 +200,8 @@ int main()
                 }
                 scanf("%s",ps->p[ps->top].name);
                 ps->p[ps->top].row = i;
-                ps->top++;
                 ps->p[ps->top].caseNum = l;
+                ps->top++;
             }
         }
         while (n != 0)
@@ -163,7 +223,7 @@ int main()
             else if(strcmp(arr[0],"deqteam")==0)//修改双链表链接顺序
             {
                 scanf("%s",arr[1]);
-                adjust(&current,arr[1],ps);
+                adjust(current,arr[1]);
             }
             else if(strcmp(arr[0],"stop")==0)
             {
@@ -175,8 +235,7 @@ int main()
     } while (n != 0);
     for(a=0;a<l;a++)
     {
-        // print();//打印所有标为1的值&&下一个链表的值
-        // Freeall();清空所有这一case
+        printFree(a);//打印所有标为1的值遇到-1跳过边print边free
     }
 }
 //搭积木
