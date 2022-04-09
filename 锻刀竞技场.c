@@ -4,7 +4,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include<assert.h>
 typedef struct Peo
 {
     char name[10];
@@ -28,16 +27,40 @@ typedef struct Con
 }C;
 static int flag = 1;
 static PL*root;
+void Free()
+{
+    PL*next1,*next2;
+    for (next1=root;(next1=next1->fwd)!=NULL;root=next1)
+    {
+        if (root->bwd!=NULL)
+        {
+            for (next2=root;(next2=next2->bwd)!=NULL;root=next2)
+            {
+                free(root);
+            }
+            free(root);
+        }
+        else
+        {
+            free(root);
+        }
+    }
+    free(root);
+}
 void adjust(PL*current,char arr[10])
 {
     PL*next1,*next2,*first;
     for(next1=current;current!=NULL;current=next1)
     {
-        first = current;
         next1=next1->fwd;
+        first = current;
         if(strcmp(current->name,arr)==0)
         {
-            first->row = -1;
+            if(current->num == 1)
+            {
+                return;
+            }
+            current->num = -1;
             return;
         }
         if(current->bwd!=NULL)
@@ -46,14 +69,34 @@ void adjust(PL*current,char arr[10])
             {
                 if(strcmp(next2->name,arr)==0)
                 {
-                    first->row = -1;
+                    if(current->num == 1)
+                    {
+                        return;
+                    }
+                    if(first->num == 0)
+                    {
+                        first->num = -1;
+                        printf("%s",first->name);
+                    }
+                    while((first = first->bwd)->num==1||first->num==-1)
+                    {
+                        ;
+                    }
+                    first->num = -1;
+                    printf(" %s",first->name);
+                    while ((first=first->bwd)!=NULL)
+                    {
+                        first->num = -1;
+                        printf(" %s",first->name);
+                    }
+                    printf("\n");
                     return;
                 }
             }
         }
     }
 }
-void modifynum(PL*current,C*ps)
+void modifynum(PL*current)
 {
     PL*next1,*next2;
     for(next1=current;current!=NULL;current=next1)
@@ -66,6 +109,7 @@ void modifynum(PL*current,C*ps)
         if(current->num == 0)
         {
             current->num = 1;
+            printf("%s\n",current->name);
             return;
         }
         if(current->bwd!=NULL)
@@ -76,6 +120,7 @@ void modifynum(PL*current,C*ps)
                 if(current->num == 0)
                 {
                     current->num = 1;
+                    printf("%s\n",current->name);
                     return;
                 }
             }
@@ -131,46 +176,17 @@ PL* creatPl(PL**rootp,char arr[30],C*ps)
             return NULL;
         }
     }
+    if(current->row == new->row)
+    {
+        for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
+        {
+            ;
+        }
+        current->bwd = new;
+        return NULL;
+    }
     current->fwd = new;
     return NULL;
-}
-void printFree(int a)
-{
-    printf("Case #%d\n",a+1);
-    PL*next1,*next2;
-    for(next1=root;(next1=next1->fwd)!=NULL||(next1->caseNum)!=(root->caseNum);root=next1)
-    {
-        if(root->num == 1&&root->row!=-1)
-        {
-            printf("%s",root->name);
-            if(root->bwd!=NULL)
-            {
-                for(next2=root;(next2=next2->bwd)!=NULL;root=next2)
-                {
-                    if(root->fwd==NULL)
-                    {
-                        //free(root);
-                    }
-                    if(next2->num==1)
-                    {
-                        printf(" %s",next2->name);
-                    }
-                }
-                //free(root);
-                printf("\n");
-            }
-            else
-            {
-                printf("\n");
-            }
-        }
-        //free(root);
-    }
-   if(next1!=NULL)
-   {
-       free(root);
-       root = next1;
-   }
 }
 int main()
 {
@@ -180,10 +196,14 @@ int main()
     do
     {
         l++;
-        ps = (C*)malloc(sizeof(C)+2*sizeof(P));
-        ps->capacity = 3;
+        ps = (C*)malloc(8+2*sizeof(P));
+        ps->capacity = 2;
         ps->top = 0;
         scanf("%d",&n);
+        if(n != 0)
+        {
+            printf("Case #%d\n",l);
+        }
         for(i=1;i<=n;i++)
         {
             scanf("%d",&k);
@@ -218,7 +238,7 @@ int main()
             }
             else if(strcmp(arr[0],"dequeue")==0)//将num改为1
             {
-                modifynum(current,ps);
+                modifynum(current);
             }
             else if(strcmp(arr[0],"deqteam")==0)//修改双链表链接顺序
             {
@@ -233,10 +253,7 @@ int main()
             }
         }
     } while (n != 0);
-    for(a=0;a<l;a++)
-    {
-        printFree(a);//打印所有标为1的值遇到-1跳过边print边free
-    }
+    Free();
 }
 //搭积木
 //有编号0-（N-1）的若干个积木块从小到大的顺序排成一行，每个积木块所在位置为其对应编号。
