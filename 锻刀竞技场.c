@@ -1,4 +1,6 @@
-//排队
+//命令排列
+//语料词典
+//排队（精简版）
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -9,26 +11,118 @@ typedef struct Peo
     int row;
     int caseNum;
 }P;
+typedef struct PeoLink
+{
+    char name[10];
+    int row;
+    int caseNum;
+    int num;
+    struct PeoLink*fwd;
+    struct PeoLink*bwd;
+}PL;
 typedef struct Con
 {
     int capacity;
     int top;
     P p[];
 }C;
+static int flag = 1;
+static PL*root;
+void adjust(PL**current,char arr[10],C*ps)
+{
+    
+}
+void modifynum(PL*current,C*ps)
+{
+    PL*next1,*next2;
+    for(next1=current;current!=NULL;current=next1)
+    {
+        next1=next1->fwd;
+        if(current->num == 0)
+        {
+            current->num = 1;
+            return;
+        }
+        if(current->bwd!=NULL)
+        {
+            for(next2=current;current!=NULL;current=next2)
+            {
+                next2=next2->bwd;
+                if(current->num == 0)
+                {
+                    current->num = 1;
+                    return;
+                }
+            }
+        }
+    }
+}
+PL* creatPl(PL**rootp,char arr[30],C*ps)
+{
+    int i;PL*current = *rootp;PL*next;
+    for(i=0;i<ps->top;i++)
+    {
+        if(strcmp(ps->p[i].name,arr)==0)
+        {
+            break;
+        }
+    }
+    if(i == ps->top)
+    {
+        return NULL;
+    }
+    PL*new = (PL*)malloc(sizeof(PL));
+    new->fwd = NULL;
+    new->bwd = NULL;
+    strcpy(new->name,ps->p[i].name);
+    new->caseNum = ps->p[i].caseNum;
+    new->row = ps->p[i].row;
+    new->num = 0;
+    if(flag == 1)
+    {
+        *rootp = new;
+        root = new;
+        flag = 0;
+        return NULL;
+    }
+    if(new->caseNum!=(*rootp)->caseNum)
+    {
+        for(next=current;(next=next->fwd)!=NULL;current=next)
+        {
+            ;
+        }
+        current->fwd = new;
+        return new;
+    }
+    for(next=current;(next=next->fwd)!=NULL;current=next)
+    {
+        if(current->row == new->row)
+        {
+            for(next=current;(next=next->bwd)!=NULL;current=next)
+            {
+                ;
+            }
+            current->bwd = new;
+            return NULL;
+        }
+    }
+    current->fwd = new;
+    return NULL;
+}
 void print(C*ps,int l)
 {
-
 }
 int main()
 {
-    int n,i,j,k,l=0;char arr[2][30] = {0};
-    C*ps = (C*)malloc(sizeof(C)+2*sizeof(P));
-    assert(ps);
-    ps->capacity = 3;
-    ps->top = 0;
+    int a,n,i,j,k,l=0,flag=1;char arr[2][30] = {0};
+    PL*current,*currentp;
+    C*ps;
     do
     {
         l++;
+        ps = (C*)malloc(sizeof(C)+2*sizeof(P));
+        ps->capacity = 3;
+        ps->top = 0;
         scanf("%d",&n);
         for(i=1;i<=n;i++)
         {
@@ -50,30 +144,40 @@ int main()
                 ps->p[ps->top].caseNum = l;
             }
         }
-        while (n !=0)
+        while (n != 0)
         {
             scanf("%s",arr[0]);
-            if(strcmp(arr[0],"enqueue")==0)
+            if(strcmp(arr[0],"enqueue")==0)//制作双链表
             {
                 scanf("%s",arr[1]);
+                currentp = creatPl(&current,arr[1],ps);//将fwd链接，bwd链接，num设置成0
+                if(currentp != NULL)
+                {
+                    current = currentp;//current为每一个case的首节点
+                }
             }
-            else if(strcmp(arr[0],"dequeue")==0)
+            else if(strcmp(arr[0],"dequeue")==0)//将num改为1
             {
-                
+                modifynum(current,ps);
             }
-            else if(strcmp(arr[0],"deqteam")==0)
+            else if(strcmp(arr[0],"deqteam")==0)//修改双链表链接顺序
             {
                 scanf("%s",arr[1]);
+                adjust(&current,arr[1],ps);
             }
             else if(strcmp(arr[0],"stop")==0)
             {
+                free(ps);
+                ps = NULL;
                 break;
             }
         }
     } while (n != 0);
-    print(ps,l);
-    free(ps);
-    ps = NULL;
+    for(a=0;a<l;a++)
+    {
+        // print();//打印所有标为1的值&&下一个链表的值
+        // Freeall();清空所有这一case
+    }
 }
 //搭积木
 //有编号0-（N-1）的若干个积木块从小到大的顺序排成一行，每个积木块所在位置为其对应编号。
