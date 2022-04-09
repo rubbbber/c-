@@ -1,260 +1,295 @@
-//命令排列
+//魔法数
+// #include<stdio.h>
+// #include<math.h>
+// int main()
+// {
+//     long long a,b,c,d,count=0;
+//     int N,x,l=1,flag=1;
+//     while (scanf("%d%d",&x,&N)!=EOF)
+//     {
+//         printf("Case %d:\n",l++);
+//         for(d=1;d<=N;d++)
+//         {
+//             for(c=1;c<=d;c++)
+//             {
+//                 for(b=1;b<=c;b++)
+//                 {
+//                     for(a=1;a<=b;a++)
+//                     {
+//                         if(pow(a,x)+pow(b,x)+pow(c,x) == pow(d,x))
+//                         {
+//                             if(flag == 1)
+//                             {
+//                                 flag = 0;
+//                             }
+//                             printf("%lld^%d+%lld^%d+%lld^%d=%lld^%d\n",a,x,b,x,c,x,d,x);
+//                         }
+//                     }
+//                 } 
+//             }
+//         }
+//         if(flag == 1)
+//         {
+//             printf("No such numbers.\n");
+//         }
+//     }
+// }
 //语料词典
 //排队（精简版）
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-typedef struct Peo
-{
-    char name[10];
-    int row;
-    int caseNum;
-}P;
-typedef struct PeoLink
-{
-    char name[10];
-    int row;
-    int caseNum;
-    int num;
-    struct PeoLink*fwd;
-    struct PeoLink*bwd;
-}PL;
-typedef struct Con
-{
-    int capacity;
-    int top;
-    P p[];
-}C;
-static int flag = 1;
-static PL*root;
-void Free()
-{
-    PL*next1,*next2;
-    for (next1=root;(next1=next1->fwd)!=NULL;root=next1)
-    {
-        if (root->bwd!=NULL)
-        {
-            for (next2=root;(next2=next2->bwd)!=NULL;root=next2)
-            {
-                free(root);
-            }
-            free(root);
-        }
-        else
-        {
-            free(root);
-        }
-    }
-    free(root);
-}
-void adjust(PL*current,char arr[10])
-{
-    PL*next1,*next2,*first;
-    for(next1=current;current!=NULL;current=next1)
-    {
-        next1=next1->fwd;
-        first = current;
-        if(strcmp(current->name,arr)==0)
-        {
-            if(current->num == 1)
-            {
-                return;
-            }
-            current->num = -1;
-            return;
-        }
-        if(current->bwd!=NULL)
-        {
-            for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
-            {
-                if(strcmp(next2->name,arr)==0)
-                {
-                    if(current->num == 1)
-                    {
-                        return;
-                    }
-                    if(first->num == 0)
-                    {
-                        first->num = -1;
-                        printf("%s",first->name);
-                    }
-                    while((first = first->bwd)->num==1||first->num==-1)
-                    {
-                        ;
-                    }
-                    first->num = -1;
-                    printf(" %s",first->name);
-                    while ((first=first->bwd)!=NULL)
-                    {
-                        first->num = -1;
-                        printf(" %s",first->name);
-                    }
-                    printf("\n");
-                    return;
-                }
-            }
-        }
-    }
-}
-void modifynum(PL*current)
-{
-    PL*next1,*next2;
-    for(next1=current;current!=NULL;current=next1)
-    {
-        next1=next1->fwd;
-        if(current->row==-1)
-        {
-            continue;
-        }
-        if(current->num == 0)
-        {
-            current->num = 1;
-            printf("%s\n",current->name);
-            return;
-        }
-        if(current->bwd!=NULL)
-        {
-            for(next2=current;current!=NULL;current=next2)
-            {
-                next2=next2->bwd;
-                if(current->num == 0)
-                {
-                    current->num = 1;
-                    printf("%s\n",current->name);
-                    return;
-                }
-            }
-        }
-    }
-}
-PL* creatPl(PL**rootp,char arr[30],C*ps)
-{
-    int i;PL*current = *rootp;PL*next1,*next2;
-    for(i=0;i<ps->top;i++)
-    {
-        if(strcmp(ps->p[i].name,arr)==0)
-        {
-            break;
-        }
-    }
-    if(i == ps->top)
-    {
-        return NULL;
-    }
-    PL*new = (PL*)malloc(sizeof(PL));
-    new->fwd = NULL;
-    new->bwd = NULL;
-    strcpy(new->name,ps->p[i].name);
-    new->caseNum = ps->p[i].caseNum;
-    new->row = ps->p[i].row;
-    new->num = 0;
-    if(flag == 1)
-    {
-        *rootp = new;
-        root = new;
-        flag = 0;
-        return NULL;
-    }
-    if(new->caseNum!=(*rootp)->caseNum)
-    {
-        for(next1=current;(next1=next1->fwd)!=NULL;current=next1)
-        {
-            ;
-        }
-        current->fwd = new;
-        return new;
-    }
-    for(next1=current;(next1=next1->fwd)!=NULL;current=next1)
-    {
-        if(current->row == new->row)
-        {
-            for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
-            {
-                ;
-            }
-            current->bwd = new;
-            return NULL;
-        }
-    }
-    if(current->row == new->row)
-    {
-        for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
-        {
-            ;
-        }
-        current->bwd = new;
-        return NULL;
-    }
-    current->fwd = new;
-    return NULL;
-}
-int main()
-{
-    int a,n,i,j,k,l=0,flag=1;char arr[2][30] = {0};
-    PL*current,*currentp;
-    C*ps;
-    do
-    {
-        l++;
-        ps = (C*)malloc(8+2*sizeof(P));
-        ps->capacity = 2;
-        ps->top = 0;
-        scanf("%d",&n);
-        if(n != 0)
-        {
-            printf("Case #%d\n",l);
-        }
-        for(i=1;i<=n;i++)
-        {
-            scanf("%d",&k);
-            for(j=0;j<k;j++)
-            {
-                if(ps->top == ps->capacity)
-                {
-                    C*ptr = (C*)realloc(ps,8+(ps->capacity+1)*sizeof(P));
-                    if(ptr != NULL)
-                    {
-                        ps = ptr;
-                        ps->capacity++;
-                    }
-                }
-                scanf("%s",ps->p[ps->top].name);
-                ps->p[ps->top].row = i;
-                ps->p[ps->top].caseNum = l;
-                ps->top++;
-            }
-        }
-        while (n != 0)
-        {
-            scanf("%s",arr[0]);
-            if(strcmp(arr[0],"enqueue")==0)//制作双链表
-            {
-                scanf("%s",arr[1]);
-                currentp = creatPl(&current,arr[1],ps);//将fwd链接，bwd链接，num设置成0
-                if(currentp != NULL)
-                {
-                    current = currentp;//current为每一个case的首节点
-                }
-            }
-            else if(strcmp(arr[0],"dequeue")==0)//将num改为1
-            {
-                modifynum(current);
-            }
-            else if(strcmp(arr[0],"deqteam")==0)//修改双链表链接顺序
-            {
-                scanf("%s",arr[1]);
-                adjust(current,arr[1]);
-            }
-            else if(strcmp(arr[0],"stop")==0)
-            {
-                free(ps);
-                ps = NULL;
-                break;
-            }
-        }
-    } while (n != 0);
-    Free();
-}
+// #include<stdio.h>
+// #include<stdlib.h>
+// #include<string.h>
+// typedef struct Peo
+// {
+//     char name[10];
+//     int row;
+//     int caseNum;
+// }P;
+// typedef struct PeoLink
+// {
+//     char name[10];
+//     int row;
+//     int caseNum;
+//     int num;
+//     struct PeoLink*fwd;
+//     struct PeoLink*bwd;
+// }PL;
+// typedef struct Con
+// {
+//     int capacity;
+//     int top;
+//     P p[];
+// }C;
+// static int flag = 1;
+// static PL*root;
+// void Free()
+// {
+//     PL*next1,*next2;
+//     for (next1=root;(next1=next1->fwd)!=NULL;root=next1)
+//     {
+//         if (root->bwd!=NULL)
+//         {
+//             for (next2=root;(next2=next2->bwd)!=NULL;root=next2)
+//             {
+//                 free(root);
+//             }
+//             free(root);
+//         }
+//         else
+//         {
+//             free(root);
+//         }
+//     }
+//     free(root);
+// }
+// void adjust(PL*current,char arr[10])
+// {
+//     PL*next1,*next2,*first;
+//     for(next1=current;current!=NULL;current=next1)
+//     {
+//         next1=next1->fwd;
+//         first = current;
+//         if(strcmp(current->name,arr)==0)
+//         {
+//             if(current->num == 1)
+//             {
+//                 return;
+//             }
+//             current->num = -1;
+//             return;
+//         }
+//         if(current->bwd!=NULL)
+//         {
+//             for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
+//             {
+//                 if(strcmp(next2->name,arr)==0)
+//                 {
+//                     if(current->num == 1)
+//                     {
+//                         return;
+//                     }
+//                     if(first->num == 0)
+//                     {
+//                         first->num = -1;
+//                         printf("%s",first->name);
+//                     }
+//                     while((first = first->bwd)->num==1||first->num==-1)
+//                     {
+//                         ;
+//                     }
+//                     first->num = -1;
+//                     printf(" %s",first->name);
+//                     while ((first=first->bwd)!=NULL)
+//                     {
+//                         first->num = -1;
+//                         printf(" %s",first->name);
+//                     }
+//                     printf("\n");
+//                     return;
+//                 }
+//             }
+//         }
+//     }
+// }
+// void modifynum(PL*current)
+// {
+//     PL*next1,*next2;
+//     for(next1=current;current!=NULL;current=next1)
+//     {
+//         next1=next1->fwd;
+//         if(current->row==-1)
+//         {
+//             continue;
+//         }
+//         if(current->num == 0)
+//         {
+//             current->num = 1;
+//             printf("%s\n",current->name);
+//             return;
+//         }
+//         if(current->bwd!=NULL)
+//         {
+//             for(next2=current;current!=NULL;current=next2)
+//             {
+//                 next2=next2->bwd;
+//                 if(current->num == 0)
+//                 {
+//                     current->num = 1;
+//                     printf("%s\n",current->name);
+//                     return;
+//                 }
+//             }
+//         }
+//     }
+// }
+// PL* creatPl(PL**rootp,char arr[30],C*ps)
+// {
+//     int i;PL*current = *rootp;PL*next1,*next2;
+//     for(i=0;i<ps->top;i++)
+//     {
+//         if(strcmp(ps->p[i].name,arr)==0)
+//         {
+//             break;
+//         }
+//     }
+//     if(i == ps->top)
+//     {
+//         return NULL;
+//     }
+//     PL*new = (PL*)malloc(sizeof(PL));
+//     new->fwd = NULL;
+//     new->bwd = NULL;
+//     strcpy(new->name,ps->p[i].name);
+//     new->caseNum = ps->p[i].caseNum;
+//     new->row = ps->p[i].row;
+//     new->num = 0;
+//     if(flag == 1)
+//     {
+//         *rootp = new;
+//         root = new;
+//         flag = 0;
+//         return NULL;
+//     }
+//     if(new->caseNum!=(*rootp)->caseNum)
+//     {
+//         for(next1=current;(next1=next1->fwd)!=NULL;current=next1)
+//         {
+//             ;
+//         }
+//         current->fwd = new;
+//         return new;
+//     }
+//     for(next1=current;(next1=next1->fwd)!=NULL;current=next1)
+//     {
+//         if(current->row == new->row)
+//         {
+//             for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
+//             {
+//                 ;
+//             }
+//             current->bwd = new;
+//             return NULL;
+//         }
+//     }
+//     if(current->row == new->row)
+//     {
+//         for(next2=current;(next2=next2->bwd)!=NULL;current=next2)
+//         {
+//             ;
+//         }
+//         current->bwd = new;
+//         return NULL;
+//     }
+//     current->fwd = new;
+//     return NULL;
+// }
+// int main()
+// {
+//     int a,n,i,j,k,l=0,flag=1;char arr[2][30] = {0};
+//     PL*current,*currentp;
+//     C*ps;
+//     do
+//     {
+//         l++;
+//         ps = (C*)malloc(8+2*sizeof(P));
+//         ps->capacity = 2;
+//         ps->top = 0;
+//         scanf("%d",&n);
+//         if(n != 0)
+//         {
+//             printf("Case #%d\n",l);
+//         }
+//         for(i=1;i<=n;i++)
+//         {
+//             scanf("%d",&k);
+//             for(j=0;j<k;j++)
+//             {
+//                 if(ps->top == ps->capacity)
+//                 {
+//                     C*ptr = (C*)realloc(ps,8+(ps->capacity+1)*sizeof(P));
+//                     if(ptr != NULL)
+//                     {
+//                         ps = ptr;
+//                         ps->capacity++;
+//                     }
+//                 }
+//                 scanf("%s",ps->p[ps->top].name);
+//                 ps->p[ps->top].row = i;
+//                 ps->p[ps->top].caseNum = l;
+//                 ps->top++;
+//             }
+//         }
+//         while (n != 0)
+//         {
+//             scanf("%s",arr[0]);
+//             if(strcmp(arr[0],"enqueue")==0)//制作双链表
+//             {
+//                 scanf("%s",arr[1]);
+//                 currentp = creatPl(&current,arr[1],ps);//将fwd链接，bwd链接，num设置成0
+//                 if(currentp != NULL)
+//                 {
+//                     current = currentp;//current为每一个case的首节点
+//                 }
+//             }
+//             else if(strcmp(arr[0],"dequeue")==0)//将num改为1
+//             {
+//                 modifynum(current);
+//             }
+//             else if(strcmp(arr[0],"deqteam")==0)//修改双链表链接顺序
+//             {
+//                 scanf("%s",arr[1]);
+//                 adjust(current,arr[1]);
+//             }
+//             else if(strcmp(arr[0],"stop")==0)
+//             {
+//                 free(ps);
+//                 ps = NULL;
+//                 break;
+//             }
+//         }
+//     } while (n != 0);
+//     Free();
+// }
 //搭积木
 //有编号0-（N-1）的若干个积木块从小到大的顺序排成一行，每个积木块所在位置为其对应编号。
 //一个机器人可以操作这些积木块，机器人可以执行如下指令：
