@@ -1,45 +1,70 @@
+//打印棱形
+//水仙花数
+// #include<stdio.h>
+// #include<math.h>
+// int main()
+// {
+//     long long N,a,b,i,c,d = 0;
+//     scanf("%lld",&N);
+//     a = pow(10,N-1);
+//     b = pow(10,N);
+//     for(i=a;i<b;i++)
+//     {
+//         c = i;
+//         d = 0;
+//         while(c>9)
+//         {
+//             d += pow(c%10,N);
+//             c/=10;
+//         }
+//         d += pow(c%10,N);
+//         if(d == i)
+//         {
+//             printf("%lld\n",i);
+//         }
+//     }
+// }
 //魔法数
-#include<stdio.h>
-#include<math.h>
-static long long a=1,b=1,c=1,d=1;
-int main()
-{
-    int N,x,l=1,flag;
-    while (scanf("%d%d",&x,&N)!=EOF)
-    {
-        flag = 1;
-        printf("Case %d:\n",l++);
-        for(a=1;a<=N;a++)
-        {
-            for(b=a;b<=N;b++)
-            {
-                for(c=b;c<=N;c++)
-                {
-                    for(d=c;d<=N;d++)
-                    {
-                        if(a+b+c<d)
-                        {
-                            break;
-                        }
-                        if(pow(a,x)+pow(b,x)+pow(c,x) == pow(d,x))
-                        {
-                            if(flag == 1)
-                            {
-                                flag = 0;
-                            }
-                            printf("%lld^%d+%lld^%d+%lld^%d=%lld^%d\n",a,x,b,x,c,x,d,x);
-                        }
-                    }
-                } 
-            }
-        }
-        if(flag == 1)
-        {
-            printf("No such numbers.\n");
-        }
-    }
-}
-//语料词典
+// #include<stdio.h>
+// #include<math.h>
+// int main()
+// {
+//     int N,x,l=1,flag;
+//     long long a=1,b=1,c=1,d=1;
+//     while (scanf("%d%d",&x,&N)!=EOF)
+//     {
+//         flag = 1;
+//         printf("Case %d:\n",l++);
+//         for(a=1;a<=N;a++)
+//         {
+//             for(b=a;b<=N;b++)
+//             {
+//                 for(c=b;c<=N;c++)
+//                 {
+//                     for(d=c;d<=N;d++)
+//                     {
+//                         if(a+b+c<d)
+//                         {
+//                             break;
+//                         }
+//                         if(pow(a,x)+pow(b,x)+pow(c,x) == pow(d,x))
+//                         {
+//                             if(flag == 1)
+//                             {
+//                                 flag = 0;
+//                             }
+//                             printf("%lld^%d+%lld^%d+%lld^%d=%lld^%d\n",a,x,b,x,c,x,d,x);
+//                         }
+//                     }
+//                 } 
+//             }
+//         }
+//         if(flag == 1)
+//         {
+//             printf("No such numbers.\n");
+//         }
+//     }
+// }
 //排队（精简版）
 // #include<stdio.h>
 // #include<stdlib.h>
