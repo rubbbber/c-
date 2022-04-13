@@ -1,4 +1,42 @@
 //打印棱形
+#include<stdio.h>
+int main()
+{
+    int a,b,c,d=0,e=6,i;
+    scanf("%d",&a);
+    for(i=0;i<(a/2)+1;i++)
+    {
+        for(b=0;b<e;b++)
+        {
+            putchar(32);
+        }
+        putchar('*');
+        for(c=0;c<d;c++)
+        {
+            printf(" *");
+        }
+        d+=2;
+        e-=2;
+        printf("\n");
+    }
+    e=2;
+    d=4;
+    for(i=0;i<(a/2);i++)
+    {
+        for(b=0;b<e;b++)
+        {
+            putchar(32);
+        }
+        putchar('*');
+        for(c=0;c<d;c++)
+        {
+            printf(" *");
+        }
+        e+=2;
+        d-=2;
+        printf("\n");
+    }
+}
 //水仙花数
 // #include<stdio.h>
 // #include<math.h>
