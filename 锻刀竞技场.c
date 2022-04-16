@@ -1,42 +1,107 @@
-//打印棱形
+//模拟实数的打印
 #include<stdio.h>
-int main()
+#define INTTRAN(a)((int)a);
+#define DECTRAN(a)(a - (int)a)
+double roundup(double a,int d)
 {
-    int a,b,c,d=0,e=6,i;
-    scanf("%d",&a);
-    for(i=0;i<(a/2)+1;i++)
+    double b = 0.5;
+    while(d--)
     {
-        for(b=0;b<e;b++)
-        {
-            putchar(32);
-        }
-        putchar('*');
-        for(c=0;c<d;c++)
-        {
-            printf(" *");
-        }
-        d+=2;
-        e-=2;
-        printf("\n");
+        b/=10;
     }
-    e=2;
-    d=4;
-    for(i=0;i<(a/2);i++)
+    return a+b;
+}
+void printfint(int a)
+{
+    if(a>9)
     {
-        for(b=0;b<e;b++)
-        {
-            putchar(32);
-        }
-        putchar('*');
-        for(c=0;c<d;c++)
-        {
-            printf(" *");
-        }
-        e+=2;
-        d-=2;
-        printf("\n");
+        printf("%d ",a%10);
+        printfint(a/10);
+    }
+    else
+    {
+        printf("%d",a);
     }
 }
+void printfdec(double a,int b)
+{
+    int c;
+    while(b--)
+    {
+        a*=10;
+        c = INTTRAN(a);
+        printf("%d ",c%10);
+    }
+}
+int main()
+{
+    double a,c;
+    int b,d;
+    scanf("%lf%d",&a,&d);
+    if(a<0)
+    {
+        putchar('-');
+        a = -a;
+    }
+    a = roundup(a,d);
+    b = INTTRAN(a);
+    c = DECTRAN(a);
+    printfint(b);
+    if(c!=0)
+    {
+        putchar('.');
+        printfdec(c,d);
+    }
+}
+//注意(strncpy中\0的重要地位)
+// #include<stdio.h>
+// #include<string.h>
+// int main()
+// {
+//     char arr1[] = {'1','2','3','4','5','\0'};
+//     char arr2[6] = {0};
+//     strncpy(arr2,arr1,6);
+//     printf("%s",arr2);
+// }
+//打印棱形
+// #include<stdio.h>
+// int main()
+// {
+//     int a,b,c,d=0,e=6,i;
+//     scanf("%d",&a);
+//     for(i=0;i<(a/2)+1;i++)
+//     {
+//         for(b=0;b<e;b++)
+//         {
+//             putchar(32);
+//         }
+//         putchar('*');
+//         for(c=0;c<d;c++)
+//         {
+//             printf(" *");
+//         }
+//         d+=2;
+//         e-=2;
+//         printf("\n");
+//     }
+//     e=2;
+//     d=4;
+//     for(i=0;i<(a/2);i++)
+//     {
+//         for(b=0;b<e;b++)
+//         {
+//             putchar(32);
+//         }
+//         putchar('*');
+//         for(c=0;c<d;c++)
+//         {
+//             printf(" *");
+//         }
+//         e+=2;
+//         d-=2;
+//         printf("\n");
+//     }
+// }
 //水仙花数
 // #include<stdio.h>
 // #include<math.h>
