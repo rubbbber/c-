@@ -1,67 +1,140 @@
-//模拟实数的打印
-#include<stdio.h>
-#define INTTRAN(a)((int)a);
-#define DECTRAN(a)(a - (int)a)
-double roundup(double a,int d)
-{
-    double b = 0.5;
-    while(d--)
-    {
-        b/=10;
-    }
-    return a+b;
-}
-void printfint(int a)
-{
-    if(a>9)
-    {
-        printf("%d ",a%10);
-        printfint(a/10);
-    }
-    else
-    {
-        printf("%d",a);
-    }
-}
-void printfdec(double a,int b)
-{
-    int c;
-    while(b--)
-    {
-        a*=10;
-        c = INTTRAN(a);
-        printf("%d ",c%10);
-    }
-}
-int main()
-{
-    double a,c;
-    int b,d;
-    scanf("%lf%d",&a,&d);
-    if(a<0)
-    {
-        putchar('-');
-        a = -a;
-    }
-    a = roundup(a,d);
-    b = INTTRAN(a);
-    c = DECTRAN(a);
-    printfint(b);
-    if(c!=0)
-    {
-        putchar('.');
-        printfdec(c,d);
-    }
-}
-//注意(strncpy中\0的重要地位)
 // #include<stdio.h>
-// #include<string.h>
+// #include<math.h>
+// double Abs(double a)
+// {
+//     if(a<0)
+//     {
+//         return -1*a;
+//     }
+//     return a;
+// }
 // int main()
 // {
-//     char arr1[] = {'1','2','3','4','5','\0'};
-//     char arr2[6] = {0};
-//     strncpy(arr2,arr1,6);
-//     printf("%s",arr2);
+//     long long a,i,d = 1,h;
+//     double b,c,f;
+//     scanf("%lld%lf",&a,&b);
+//     c = b-(int)b;
+//     for(i=1;i<=a;i++)
+//     {
+//         if(c > i*b-(int)(i*b))
+//         {
+//             c = i*b-(int)(i*b);
+//             d = i;
+//         }
+//         if(c > (int)(i*b)+1-i*b)
+//         {
+//             c = (int)(i*b)+1-i*b;
+//             d = i;
+//         }
+//     }
+//     if(d*b-(int)(b*d)>(int)(b*d)+1-d*b)
+//     {
+//         h = (int)(b*d)+1;
+//     }
+//     else if(d*b-(int)(b*d)<(int)(b*d)+1-d*b)
+//     {
+//         h = (int)(b*d);
+//     }
+//     else
+//     {
+//         printf("More than one!\n");
+//         return 0;
+//     }
+//     f = Abs(1.0*h/d-b);
+//     if(f == 0.0)
+//     {
+//         printf("%lld %.10lf",h,f);
+//         return 0;
+//     }
+//     printf("%lld/%lld ",h,d);
+//     printf("%.10lf\n",f);
+// }
+// #include<stdio.h>
+// static int mod = 998244353;
+// int max(int a,int b)
+// {
+//     return a>b?a:b;
+// }
+// int main()
+// {
+//     int n,k,a[1005] = {0};
+//     long long F[1005] = {0},sum;
+// 	F[0]=1;
+// 	scanf("%d%d",&n,&k);
+// 	for(int i=1;i<=n;i++)
+// 	{
+//         scanf("%d",&a[i]);
+//     }
+// 	for(int i=1;i<=n;++i)
+//     {
+// 		sum=0;
+// 		for(int j=k;j>=max(k-a[i]+1,0);j--)
+//         {
+// 			sum+=F[j];
+//         }
+// 		for(int j=k;j>=0;j--)
+//         {
+// 			sum-=F[j];
+// 			if(j-a[i]>=0)
+// 			{
+//                 sum+=F[j-a[i]];
+//                 F[j]=(F[j]+sum)%mod;
+//             }
+// 		}
+// 	}
+// 	printf("%lld\n",F[k]%mod);
+// 	return 0;
+// } 
+// #include<stdio.h>
+// int main()
+// {
+//     int a,b,c,d,e,f;
+//     scanf("%d%d%d%d",&a,&b,&c,&d);
+//     e = d - b;
+//     f = c - a;
+//     if(e<0)
+//     {
+//         e = -1*e;
+//     }
+//     if(f<0)
+//     {
+//         f = -1*f;
+//     }
+//     if(e>f)
+//     {
+//         a = ((e-f)/2)*2;
+//         printf("%d\n",a+e+f);
+//     }
+//     else if(f>=e)
+//     {
+//         a = ((f-e)/2)*2;
+//         printf("%d\n",a+e+f);
+//     }
+// }
+// // #include<stdio.h>
+// int main()
+// {
+//     int arr[800][800] = {0},a,i,j=0;
+//     long long count = 0;
+//     scanf("%d",&a);
+//     for(i=0;i<a;i++)
+//     {
+//         for(j=0;j<a;j++)
+//         {
+//             scanf("%d",&arr[i][j]);
+//         }
+//     }
+//     for(i=0;i<a;i++)
+//     {
+//         for(j=0;j<i;j++)
+//         {
+//             if(arr[i][j]!=arr[j][i])
+//             {
+//                 count++;
+//             }
+//         }
+//     }
+//     printf("%lld\n",count);
 // }
 //打印棱形
 // #include<stdio.h>
@@ -130,10 +203,40 @@ int main()
 //魔法数
 // #include<stdio.h>
 // #include<math.h>
+// long long Pow(long long x,int d)
+// {
+//     if(d == 0)
+//     {
+//         return 1;
+//     }
+//     if(d == 1)
+//     {
+//         return x;
+//     }
+//     if(d%2 == 0)
+//     {
+//         return Pow(x*x,d/2);
+//     }
+//     else
+//     {
+//         return Pow(x*x,d/2)*x;
+//     }
+// }
+// long long POW(long long x,int d)
+// {
+//     int i = 0;
+//     long long z = x;
+//     for(i=0;i<d-1;i++)
+//     {
+//         x *= z;
+//     }
+//     return x;
+// }
 // int main()
 // {
 //     int N,x,l=1,flag;
 //     long long a=1,b=1,c=1,d=1;
+//     long long z = POW(3,10);
 //     while (scanf("%d%d",&x,&N)!=EOF)
 //     {
 //         flag = 1;
@@ -150,7 +253,9 @@ int main()
 //                         {
 //                             break;
 //                         }
-//                         if(pow(a,x)+pow(b,x)+pow(c,x) == pow(d,x))
+//                         //if(pow(a,x)+pow(b,x)+pow(c,x) == pow(d,x))
+//                         if(Pow(a,x)+Pow(b,x)+Pow(c,x) == Pow(d,x))
+//                         //if(POW(a,x)+POW(b,x)+POW(c,x) == POW(d,x))
 //                         {
 //                             if(flag == 1)
 //                             {
