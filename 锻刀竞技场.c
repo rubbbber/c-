@@ -157,8 +157,9 @@
 // #include<stdio.h>
 // int main()
 // {
-//     int a,b,c,d=0,e=6,i;
+//     int a,b,c,d=0,e,i;
 //     scanf("%d",&a);
+//     e = a-1;
 //     for(i=0;i<(a/2)+1;i++)
 //     {
 //         for(b=0;b<e;b++)
@@ -166,16 +167,20 @@
 //             putchar(32);
 //         }
 //         putchar('*');
+//         putchar(32);
 //         for(c=0;c<d;c++)
 //         {
-//             printf(" *");
+//             printf("* ");
 //         }
 //         d+=2;
 //         e-=2;
-//         printf("\n");
+//         if(a != 1)
+//         {
+//             printf("\n");
+//         }
 //     }
 //     e=2;
-//     d=4;
+//     d=a-3;
 //     for(i=0;i<(a/2);i++)
 //     {
 //         for(b=0;b<e;b++)
@@ -183,13 +188,17 @@
 //             putchar(32);
 //         }
 //         putchar('*');
+//         putchar(32);
 //         for(c=0;c<d;c++)
 //         {
-//             printf(" *");
+//             printf("* ");
 //         }
 //         e+=2;
 //         d-=2;
-//         printf("\n");
+//         if(i != (a/2)-1)
+//         {
+//             printf("\n");
+//         }
 //     }
 // }
 //水仙花数
