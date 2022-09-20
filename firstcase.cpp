@@ -1,3 +1,149 @@
+#include <iostream>  
+using namespace std;
+ class student
+{	private:
+char xue[99];
+char num[10];
+double yu;
+double shu;
+double ying;
+public:
+	void SetScore4()
+	{int i;
+   cin>>xue;
+   cin>>num;
+   cin>>yu;
+   cin>>shu;
+   cin>>ying;
+   }
+	void Disp4()
+	{int i;
+	cout<<num<<"的学号是"<<xue<<endl;
+	cout<<num<<"的语文成绩是"<<yu<<"，数学成绩是"<<shu<<"英语成绩是"<<ying<<endl;
+    } 
+};
+int main()
+{
+	student student[3];
+	student[1].SetScore4();
+	student[2].SetScore4();
+	student[3].SetScore4();
+	student[1].Disp4();
+	student[2].Disp4();
+	student[3].Disp4();
+return 0; }
+//  #include <iostream>
+//  #include<string>
+//  using namespace std;
+//           int main()
+//           {
+//           	int i,k=0,flag = 1;
+//           	string A[7],min,j;
+//           	for(i=0;i<7;i++)
+//               {
+//               	cin>>A[i];
+// 			  }
+// 			  min=A[0];
+// 			  for(i=0;i<7;i++)
+// 			  {
+// 				flag = 1;
+// 			  	for(k=i;k<7;k++)
+// 			  	{
+// 					flag = 0;
+// 			  		if(A[k]<A[i])
+// 			  		{
+// 			  			j=A[k];
+// 			  			A[k]=A[i];
+// 			  			A[i]=j;
+// 					  }
+// 				  }
+// 				  if(flag == 1)
+// 				{
+// 					break;
+// 				}
+// 			  }
+// 			  for(i=0;i<7;i++)
+// 			  {
+// 			   cout<<A[i]<<' ';
+// 			  }
+//           return 0;
+// }
+// #include<iostream>
+// using namespace std;
+//            double Smin(double a,double b)
+//            {
+//            	if(a>b)
+//            	return b;
+//            	else
+//            	return a;
+// 		   }
+//           int main()
+//           {
+//           	int i,k=0;
+//           	double A[4],j,p;
+//           	for(i=0;i<4;i++)
+//               {
+//               	cin>>A[i];
+//               	k++;
+//               	if(getchar()=='\n')
+//               	break;
+// 			  }
+// 			  if(k == 2)
+//               {
+// 		       cout<<Smin(A[0],A[1]);
+//               }
+// 		      else if(k == 3)
+//               {
+// 		        j=Smin(A[0],A[1]);
+// 		        cout<<Smin(j,A[2]);
+//               }
+// 		       else if(k == 4)
+//                {
+// 		         j=Smin(A[0],A[1]);
+// 		        p=Smin(j,A[2]);
+// 		        cout<<Smin(p,A[3]);
+// 		        }
+//           return 0;
+// }
+//  #include <iostream>
+//  using namespace std;
+//            void Tmax(int a,int b,int c=3,int d=4)
+//            {
+//            	int max;
+// 	          if(a>b)
+// 	        max=a;
+//          	else
+//          	max=b;
+// 	       if(max<c)
+// 	        max=c;
+// 	       if(max<d)
+//            	max=d;
+// 	        cout<<max;
+// 		   }
+//           int main()
+//           {
+//           	int i,A[4],k=0;
+//           	for(i=0;i<4;i++)
+//               {
+//               	cin>>A[i];
+//               	k++;
+//               	if(getchar()=='\n')
+//               	break;
+// 			  }
+// 			  switch(k)
+// 			  {
+// 			  	case 2:
+// 		       Tmax(A[0],A[1]);
+// 		        break;
+// 		        case 3:
+// 		        Tmax(A[0],A[1],A[2]);
+// 	      	   break;
+// 		       case 4:
+// 		        Tmax(A[0],A[1],A[2],A[3]);
+// 		        break;
+// 			  }
+//           return 0;
+// }
 //   #include<iostream>
 //            using namespace std;
 //           int main(int argc, char *argv[])
